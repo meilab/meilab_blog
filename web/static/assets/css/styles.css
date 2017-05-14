@@ -1,0 +1,11 @@
+.elm-logo {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    width: 64px;
+}
+
+google-map {
+    height: 400px;
+    margin: 10px;
+}
