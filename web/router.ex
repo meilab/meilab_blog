@@ -17,10 +17,19 @@ defmodule MeilabBlog.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    get "/login", PageController, :index
+    get "/register", PageController, :index
+    get "/bloglist", PageController, :index
+    get "/blogdetail/:slug", PageController, :index
+    get "/projectlist", PageController, :index
+    get "/projectdetail/:slug", PageController, :index
+    get "/rent", PageController, :index
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", MeilabBlog do
-  #   pipe_through :api
-  # end
+  scope "/api/v1/meilab", MeilabBlog do
+    pipe_through :api
+
+    post ( "/auth" ), ApiController, :login
+  end
 end
