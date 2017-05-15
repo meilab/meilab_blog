@@ -2,7 +2,7 @@ module Models exposing (..)
 
 import Routing exposing (Route)
 import Maybe exposing (Maybe)
-import Types exposing (User)
+import Types exposing (User, BlogList)
 
 
 initialUser : User
@@ -34,6 +34,7 @@ type alias Model =
     , newMessage : String
     , latitude : Float
     , longitude : Float
+    , blogList : BlogList
     }
 
 
@@ -46,4 +47,5 @@ initialModel route url selectedMenuTab =
     , newMessage = ""
     , latitude = 34.1243494
     , longitude = 108.59336
+    , blogList = []
     }

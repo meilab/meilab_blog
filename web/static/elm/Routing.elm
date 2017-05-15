@@ -18,6 +18,7 @@ type Route
   | BlogDetailRoute String
   | ProjectListRoute
   | ProjectDetailRoute String
+  | TrainingListRoute
   | NotFoundRoute
 
 parseAppend : String -> Parser a a -> Parser a a
@@ -74,6 +75,8 @@ urlFor src_url route =
       src_url ++ "/projectlist"
     ProjectDetailRoute slug->
       src_url ++ "/projectdetail" ++ slug
+    TrainingListRoute ->
+      src_url ++ "/traininglist"
     NotFoundRoute ->
       src_url
 
@@ -99,6 +102,12 @@ routingItemNormalHeader src_url =
   , ( "Login", "fa fa-male", LoginRoute, src_url ++ "/login" )
   ]
 
+routingItemBlog : String -> List ( String, String, Route, String )
+routingItemBlog src_url =
+  [ ( "BlogHome", "fa fa-apps", BlogListRoute, src_url ++ "/bloglist" )
+  , ( "Meilab", "fa fa-list", HomeRoute, src_url ++ "/" )
+  , ( "Training", "fa fa-male", TrainingListRoute, src_url ++ "/login" )
+  ]
 
 tabsTitles : String -> List (Html a)
 tabsTitles src_url =

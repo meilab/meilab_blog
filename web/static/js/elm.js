@@ -10104,6 +10104,10 @@ var _user$project$Types$User = F3(
 	function (a, b, c) {
 		return {username: a, password: b, token: c};
 	});
+var _user$project$Types$BlogMetaInfo = F9(
+	function (a, b, c, d, e, f, g, h, i) {
+		return {slug: a, author: b, title: c, description: d, date: e, tags: f, headerimg: g, pinned: h, published: i};
+	});
 
 var _user$project$Messages$NoOp = {ctor: 'NoOp'};
 var _user$project$Messages$ToggleSideMenu = {ctor: 'ToggleSideMenu'};
@@ -10128,6 +10132,9 @@ var _user$project$Messages$Password = function (a) {
 };
 var _user$project$Messages$Username = function (a) {
 	return {ctor: 'Username', _0: a};
+};
+var _user$project$Messages$OnBlogListResponse = function (a) {
+	return {ctor: 'OnBlogListResponse', _0: a};
 };
 var _user$project$Messages$OnAuthCmdResponse = function (a) {
 	return {ctor: 'OnAuthCmdResponse', _0: a};
@@ -10158,6 +10165,45 @@ var _user$project$Helpers$cmd = function (msg) {
 		_elm_lang$core$Task$succeed(msg));
 };
 
+var _user$project$Commands$blogMetaInfoDecoder = A3(
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+	'published',
+	_elm_lang$core$Json_Decode$bool,
+	A3(
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+		'pinned',
+		_elm_lang$core$Json_Decode$bool,
+		A3(
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+			'headerimg',
+			_elm_lang$core$Json_Decode$string,
+			A3(
+				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+				'tags',
+				_elm_lang$core$Json_Decode$list(_elm_lang$core$Json_Decode$string),
+				A3(
+					_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+					'date',
+					_elm_lang$core$Json_Decode$string,
+					A3(
+						_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+						'description',
+						_elm_lang$core$Json_Decode$string,
+						A3(
+							_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+							'title',
+							_elm_lang$core$Json_Decode$string,
+							A3(
+								_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+								'author',
+								_elm_lang$core$Json_Decode$string,
+								A3(
+									_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+									'slug',
+									_elm_lang$core$Json_Decode$string,
+									_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Types$BlogMetaInfo))))))))));
+var _user$project$Commands$bloglistDecoder = _elm_lang$core$Json_Decode$list(_user$project$Commands$blogMetaInfoDecoder);
+var _user$project$Commands$bloglistExpect = _elm_lang$http$Http$expectJson(_user$project$Commands$bloglistDecoder);
 var _user$project$Commands$collectionDecoder = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 	'token',
@@ -10188,6 +10234,29 @@ var _user$project$Commands$authBody = F2(
 						},
 						_1: {ctor: '[]'}
 					}
+				}));
+	});
+var _user$project$Commands$getBlogListUrl = function (api_url) {
+	return A2(_elm_lang$core$Basics_ops['++'], api_url, '/posts');
+};
+var _user$project$Commands$getBlogList = F2(
+	function (token, api_url) {
+		return A2(
+			_elm_lang$http$Http$send,
+			_user$project$Messages$OnBlogListResponse,
+			_elm_lang$http$Http$request(
+				{
+					method: 'GET',
+					headers: {
+						ctor: '::',
+						_0: _user$project$Helpers$tokenHeader(token),
+						_1: {ctor: '[]'}
+					},
+					url: _user$project$Commands$getBlogListUrl(api_url),
+					body: _elm_lang$http$Http$emptyBody,
+					expect: _user$project$Commands$bloglistExpect,
+					timeout: _elm_lang$core$Maybe$Nothing,
+					withCredentials: false
 				}));
 	});
 var _user$project$Commands$authRequestUrl = function (api_url) {
@@ -10240,6 +10309,8 @@ var _user$project$Routing$urlFor = F2(
 					_elm_lang$core$Basics_ops['++'],
 					src_url,
 					A2(_elm_lang$core$Basics_ops['++'], '/projectdetail', _p0._0));
+			case 'TrainingListRoute':
+				return A2(_elm_lang$core$Basics_ops['++'], src_url, '/traininglist');
 			default:
 				return src_url;
 		}
@@ -10268,6 +10339,7 @@ var _user$project$Routing$parseAppend = F2(
 		}
 	});
 var _user$project$Routing$NotFoundRoute = {ctor: 'NotFoundRoute'};
+var _user$project$Routing$TrainingListRoute = {ctor: 'TrainingListRoute'};
 var _user$project$Routing$ProjectDetailRoute = function (a) {
 	return {ctor: 'ProjectDetailRoute', _0: a};
 };
@@ -10508,6 +10580,39 @@ var _user$project$Routing$parseLocation = F2(
 			return _user$project$Routing$NotFoundRoute;
 		}
 	});
+var _user$project$Routing$routingItemBlog = function (src_url) {
+	return {
+		ctor: '::',
+		_0: {
+			ctor: '_Tuple4',
+			_0: 'BlogHome',
+			_1: 'fa fa-apps',
+			_2: _user$project$Routing$BlogListRoute,
+			_3: A2(_elm_lang$core$Basics_ops['++'], src_url, '/bloglist')
+		},
+		_1: {
+			ctor: '::',
+			_0: {
+				ctor: '_Tuple4',
+				_0: 'Meilab',
+				_1: 'fa fa-list',
+				_2: _user$project$Routing$HomeRoute,
+				_3: A2(_elm_lang$core$Basics_ops['++'], src_url, '/')
+			},
+			_1: {
+				ctor: '::',
+				_0: {
+					ctor: '_Tuple4',
+					_0: 'Training',
+					_1: 'fa fa-male',
+					_2: _user$project$Routing$TrainingListRoute,
+					_3: A2(_elm_lang$core$Basics_ops['++'], src_url, '/login')
+				},
+				_1: {ctor: '[]'}
+			}
+		}
+	};
+};
 
 var _user$project$Models$initialUser = {username: '', password: '', token: _elm_lang$core$Maybe$Nothing};
 var _user$project$Models$Ui = F2(
@@ -10523,16 +10628,17 @@ var _user$project$Models$initialModel = F3(
 			user: _user$project$Models$initialUser,
 			newMessage: '',
 			latitude: 34.1243494,
-			longitude: 108.59336
+			longitude: 108.59336,
+			blogList: {ctor: '[]'}
 		};
 	});
 var _user$project$Models$Url = F3(
 	function (a, b, c) {
 		return {origin: a, src_url: b, api_url: c};
 	});
-var _user$project$Models$Model = F7(
-	function (a, b, c, d, e, f, g) {
-		return {ui: a, route: b, url: c, user: d, newMessage: e, latitude: f, longitude: g};
+var _user$project$Models$Model = F8(
+	function (a, b, c, d, e, f, g, h) {
+		return {ui: a, route: b, url: c, user: d, newMessage: e, latitude: f, longitude: g, blogList: h};
 	});
 
 var _user$project$Views_Map$decodeLatLong = function (str) {
@@ -10793,11 +10899,33 @@ var _user$project$ViewHelpers$externalLinkItem = F4(
 	});
 var _user$project$ViewHelpers$contactLink = F3(
 	function (slug, iconClass, textToShow) {
-		return A4(_user$project$ViewHelpers$externalLinkItem, slug, 'contact-link', iconClass, textToShow);
+		return A2(
+			_elm_lang$html$Html$li,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('pure-menu-item'),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A4(_user$project$ViewHelpers$externalLinkItem, slug, 'pure-menu-link', iconClass, textToShow),
+				_1: {ctor: '[]'}
+			});
 	});
 var _user$project$ViewHelpers$socialLink = F2(
 	function (slug, iconClass) {
-		return A4(_user$project$ViewHelpers$externalLinkItem, slug, 'social-link', iconClass, '');
+		return A2(
+			_elm_lang$html$Html$li,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('pure-menu-item'),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A4(_user$project$ViewHelpers$externalLinkItem, slug, 'social-link', iconClass, ''),
+				_1: {ctor: '[]'}
+			});
 	});
 var _user$project$ViewHelpers$navigationOnClick = function (msg) {
 	return A3(
@@ -11877,14 +12005,344 @@ var _user$project$Views_Login$loginView = function (model) {
 		});
 };
 
+var _user$project$Views_BlogList$navItem = F2(
+	function (model, _p0) {
+		var _p1 = _p0;
+		return A2(
+			_elm_lang$html$Html$li,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('nav-item'),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$a,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$href(_p1._3),
+						_1: {
+							ctor: '::',
+							_0: _user$project$ViewHelpers$navigationOnClick(
+								_user$project$Messages$NewUrl(
+									A2(_user$project$Routing$urlFor, model.url.src_url, _p1._2))),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('pure-button'),
+								_1: {ctor: '[]'}
+							}
+						}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(_p1._0),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			});
+	});
+var _user$project$Views_BlogList$navContainer = function (model) {
+	return A2(
+		_elm_lang$html$Html$nav,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('nav'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$ul,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('nav-list'),
+					_1: {ctor: '[]'}
+				},
+				A2(
+					_elm_lang$core$List$map,
+					_user$project$Views_BlogList$navItem(model),
+					_user$project$Routing$routingItemBlog(model.url.src_url))),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$Views_BlogList$footer = A2(
+	_elm_lang$html$Html$div,
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html_Attributes$class('footer'),
+		_1: {ctor: '[]'}
+	},
+	{
+		ctor: '::',
+		_0: A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('pure-menu pure-menu-horizontal'),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$ul,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A3(_user$project$ViewHelpers$contactLink, 'http://pureccss.io', 'fa fa-home', ''),
+						_1: {
+							ctor: '::',
+							_0: A3(_user$project$ViewHelpers$contactLink, 'http://github.com/meilab/', 'fa fa-github-alt', ''),
+							_1: {
+								ctor: '::',
+								_0: A3(_user$project$ViewHelpers$contactLink, 'http://github.com/yahoo/pure', 'fa fa-weibo', ''),
+								_1: {
+									ctor: '::',
+									_0: A3(_user$project$ViewHelpers$contactLink, 'http://github.com/yahoo/pure', 'fa fa-wechat', ''),
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}),
+				_1: {ctor: '[]'}
+			}),
+		_1: {ctor: '[]'}
+	});
+var _user$project$Views_BlogList$post = function (blogMetaInfo) {
+	return A2(
+		_elm_lang$html$Html$section,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('post'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$header,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('post-header'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$img,
+						{ctor: '[]'},
+						{ctor: '[]'}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$h2,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('post-title'),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(blogMetaInfo.title),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$p,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('post-meta'),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text('By'),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$a,
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$class('post-author'),
+												_1: {ctor: '[]'}
+											},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text(blogMetaInfo.author),
+												_1: {ctor: '[]'}
+											}),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html$text('Under'),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$a,
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$class('post-category post-category-design'),
+														_1: {ctor: '[]'}
+													},
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html$text('Pure'),
+														_1: {ctor: '[]'}
+													}),
+												_1: {
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$a,
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$class('post-category post-category-pure'),
+															_1: {ctor: '[]'}
+														},
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html$text('CSS'),
+															_1: {ctor: '[]'}
+														}),
+													_1: {ctor: '[]'}
+												}
+											}
+										}
+									}
+								}),
+							_1: {ctor: '[]'}
+						}
+					}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('post-description'),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: A2(
+							_evancz$elm_markdown$Markdown$toHtml,
+							{ctor: '[]'},
+							blogMetaInfo.description),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			}
+		});
+};
+var _user$project$Views_BlogList$posts = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('posts'),
+			_1: {ctor: '[]'}
+		},
+		A2(_elm_lang$core$List$map, _user$project$Views_BlogList$post, model.blogList));
+};
+var _user$project$Views_BlogList$content = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('content pure-u-1 pure-u-md-3-4'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _user$project$Views_BlogList$posts(model),
+					_1: {
+						ctor: '::',
+						_0: _user$project$Views_BlogList$footer,
+						_1: {ctor: '[]'}
+					}
+				}),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$Views_BlogList$blogHeader = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('sidebar pure-u-1 pure-u-md-1-4'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$div,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('blog-header'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$h1,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('brand-title'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('Meilab Blog'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$h2,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('brand-tagline'),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('Elixir Phoenix Elm ReactNative C MQTT Socket'),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: _user$project$Views_BlogList$navContainer(model),
+							_1: {ctor: '[]'}
+						}
+					}
+				}),
+			_1: {ctor: '[]'}
+		});
+};
 var _user$project$Views_BlogList$bloglistView = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
-		{ctor: '[]'},
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html$text('Rent View'),
-			_1: {ctor: '[]'}
+			_0: _elm_lang$html$Html_Attributes$id('blog-layout'),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('pure-g'),
+				_1: {ctor: '[]'}
+			}
+		},
+		{
+			ctor: '::',
+			_0: _user$project$Views_BlogList$blogHeader(model),
+			_1: {
+				ctor: '::',
+				_0: _user$project$Views_BlogList$content(model),
+				_1: {ctor: '[]'}
+			}
 		});
 };
 
@@ -12022,13 +12480,19 @@ var _user$project$Views$view = function (model) {
 				return {
 					ctor: '_Tuple2',
 					_0: _user$project$Views_BlogList$bloglistView(model),
-					_1: _user$project$Views$defaultHeader('BlogList')
+					_1: _user$project$Views$defaultHeader('ProjectList')
 				};
 			case 'ProjectDetailRoute':
 				return {
 					ctor: '_Tuple2',
 					_0: A2(_user$project$Views_BlogDetail$blogdetailView, model, _p3._0),
 					_1: _user$project$Views$defaultHeader('BlogDetail')
+				};
+			case 'TrainingListRoute':
+				return {
+					ctor: '_Tuple2',
+					_0: _user$project$Views_BlogList$bloglistView(model),
+					_1: _user$project$Views$defaultHeader('TrainingList')
 				};
 			default:
 				return {
@@ -12044,6 +12508,10 @@ var _user$project$Views$view = function (model) {
 	switch (_p4.ctor) {
 		case 'HomeRoute':
 			return _user$project$Views_Home$homeView(model);
+		case 'BlogListRoute':
+			return _user$project$Views_BlogList$bloglistView(model);
+		case 'BlogDetailRoute':
+			return A2(_user$project$Views_BlogDetail$blogdetailView, model, _p4._0);
 		case 'LoginRoute':
 			return _user$project$Views_Login$loginView(model);
 		default:
@@ -12110,7 +12578,7 @@ var _user$project$Update$changeUrlCommand = F2(
 				case 'HomeRoute':
 					return _elm_lang$core$Platform_Cmd$none;
 				case 'BlogListRoute':
-					return _elm_lang$core$Platform_Cmd$none;
+					return A2(_user$project$Commands$getBlogList, model.user.token, model.url.api_url);
 				case 'BlogDetailRoute':
 					return _elm_lang$core$Platform_Cmd$none;
 				case 'ProjectListRoute':
@@ -12236,6 +12704,21 @@ var _user$project$Update$update = F2(
 							model,
 							{user: newUser}),
 						_1: newCmd
+					};
+				} else {
+					return A2(
+						_elm_lang$core$Debug$log,
+						_elm_lang$core$Basics$toString(_p3._0._0),
+						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
+				}
+			case 'OnBlogListResponse':
+				if (_p3._0.ctor === 'Ok') {
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{blogList: _p3._0._0}),
+						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				} else {
 					return A2(

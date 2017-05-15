@@ -41,10 +41,13 @@ view model =
                     ( blogdetailView model slug, defaultHeader "BlogDetail" )
 
                 ProjectListRoute ->
-                    ( bloglistView model, defaultHeader "BlogList" )
+                    ( bloglistView model, defaultHeader "ProjectList" )
 
                 ProjectDetailRoute slug ->
                     ( blogdetailView model slug, defaultHeader "BlogDetail" )
+
+                TrainingListRoute ->
+                    ( bloglistView model, defaultHeader "TrainingList" )
 
                 NotFoundRoute ->
                     ( notFoundView, defaultHeader "Page Not Found" )
@@ -60,6 +63,12 @@ view model =
         case model.route of
             HomeRoute ->
                 homeView model
+
+            BlogListRoute ->
+                bloglistView model
+
+            BlogDetailRoute slug ->
+                blogdetailView model slug
 
             LoginRoute ->
                 loginView model

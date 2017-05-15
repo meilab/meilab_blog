@@ -1,7 +1,7 @@
 module Messages exposing (..)
 
 import Navigation exposing (Location)
-import Types exposing (AuthResponse)
+import Types exposing (AuthResponse, BlogList)
 import Http
 
 
@@ -11,6 +11,7 @@ type Msg
     | OnLocationChange Location
     | AuthRequest
     | OnAuthCmdResponse (Result Http.Error AuthResponse)
+    | OnBlogListResponse (Result Http.Error BlogList)
     | Username String
     | Password String
     | Logout

@@ -31,5 +31,6 @@ defmodule MeilabBlog.Router do
     pipe_through :api
 
     post ( "/auth" ), ApiController, :login
+    get ("/posts"), ApiController, :posts
   end
 end

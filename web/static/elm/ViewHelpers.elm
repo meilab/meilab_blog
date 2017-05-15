@@ -98,12 +98,16 @@ navItem model ( title, iconClass, route, slug ) =
 
 socialLink : String -> String -> Html Msg
 socialLink slug iconClass =
-    externalLinkItem slug "social-link" iconClass ""
+    li [ class "pure-menu-item" ]
+        [ externalLinkItem slug "social-link" iconClass ""
+        ]
 
 
 contactLink : String -> String -> String -> Html Msg
 contactLink slug iconClass textToShow =
-    externalLinkItem slug "contact-link" iconClass textToShow
+    li [ class "pure-menu-item" ]
+        [ externalLinkItem slug "pure-menu-link" iconClass textToShow
+        ]
 
 
 externalLinkItem : String -> String -> String -> String -> Html Msg

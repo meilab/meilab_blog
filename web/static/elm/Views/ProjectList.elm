@@ -9,4 +9,4 @@ import Models exposing (Model)
 
 projectlistView : Model -> Html Msg
 projectlistView model =
-    div [] [ text "Rent View" ]
+    div [] [ text "Projects View" ]

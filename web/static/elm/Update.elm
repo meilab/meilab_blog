@@ -12,7 +12,7 @@ import Routing exposing (Route(..), parseLocation, tabsUrls, urlTabs)
 import Array exposing (Array)
 import Dict exposing (Dict)
 import Helpers exposing (cmd)
-import Commands exposing (authRequest)
+import Commands exposing (authRequest, getBlogList)
 
 
 changeUrlCommand : Model -> Route -> Cmd Msg
@@ -27,7 +27,7 @@ changeUrlCommand model route =
                     Cmd.none
 
                 BlogListRoute ->
-                    Cmd.none
+                    getBlogList model.user.token model.url.api_url
 
                 BlogDetailRoute slug ->
                     Cmd.none
@@ -146,6 +146,13 @@ update msg model =
                 ( { model | user = newUser }, newCmd )
 
         OnAuthCmdResponse (Err error) ->
+            Debug.log (toString (error))
+                ( model, Cmd.none )
+
+        OnBlogListResponse (Ok blogList) ->
+            ( { model | blogList = blogList }, Cmd.none )
+
+        OnBlogListResponse (Err error) ->
             Debug.log (toString (error))
                 ( model, Cmd.none )
 
