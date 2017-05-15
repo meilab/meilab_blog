@@ -10104,7 +10104,7 @@ var _user$project$Types$User = F3(
 	function (a, b, c) {
 		return {username: a, password: b, token: c};
 	});
-var _user$project$Types$BlogMetaInfo = F9(
+var _user$project$Types$PostMetaInfo = F9(
 	function (a, b, c, d, e, f, g, h, i) {
 		return {slug: a, author: b, title: c, description: d, date: e, tags: f, headerimg: g, pinned: h, published: i};
 	});
@@ -10133,8 +10133,8 @@ var _user$project$Messages$Password = function (a) {
 var _user$project$Messages$Username = function (a) {
 	return {ctor: 'Username', _0: a};
 };
-var _user$project$Messages$OnBlogListResponse = function (a) {
-	return {ctor: 'OnBlogListResponse', _0: a};
+var _user$project$Messages$OnPostListResponse = function (a) {
+	return {ctor: 'OnPostListResponse', _0: a};
 };
 var _user$project$Messages$OnAuthCmdResponse = function (a) {
 	return {ctor: 'OnAuthCmdResponse', _0: a};
@@ -10165,7 +10165,7 @@ var _user$project$Helpers$cmd = function (msg) {
 		_elm_lang$core$Task$succeed(msg));
 };
 
-var _user$project$Commands$blogMetaInfoDecoder = A3(
+var _user$project$Commands$postMetaInfoDecoder = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 	'published',
 	_elm_lang$core$Json_Decode$bool,
@@ -10201,9 +10201,9 @@ var _user$project$Commands$blogMetaInfoDecoder = A3(
 									_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 									'slug',
 									_elm_lang$core$Json_Decode$string,
-									_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Types$BlogMetaInfo))))))))));
-var _user$project$Commands$bloglistDecoder = _elm_lang$core$Json_Decode$list(_user$project$Commands$blogMetaInfoDecoder);
-var _user$project$Commands$bloglistExpect = _elm_lang$http$Http$expectJson(_user$project$Commands$bloglistDecoder);
+									_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Types$PostMetaInfo))))))))));
+var _user$project$Commands$postlistDecoder = _elm_lang$core$Json_Decode$list(_user$project$Commands$postMetaInfoDecoder);
+var _user$project$Commands$postlistExpect = _elm_lang$http$Http$expectJson(_user$project$Commands$postlistDecoder);
 var _user$project$Commands$collectionDecoder = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 	'token',
@@ -10236,14 +10236,14 @@ var _user$project$Commands$authBody = F2(
 					}
 				}));
 	});
-var _user$project$Commands$getBlogListUrl = function (api_url) {
+var _user$project$Commands$getPostListUrl = function (api_url) {
 	return A2(_elm_lang$core$Basics_ops['++'], api_url, '/posts');
 };
-var _user$project$Commands$getBlogList = F2(
+var _user$project$Commands$getPostList = F2(
 	function (token, api_url) {
 		return A2(
 			_elm_lang$http$Http$send,
-			_user$project$Messages$OnBlogListResponse,
+			_user$project$Messages$OnPostListResponse,
 			_elm_lang$http$Http$request(
 				{
 					method: 'GET',
@@ -10252,9 +10252,9 @@ var _user$project$Commands$getBlogList = F2(
 						_0: _user$project$Helpers$tokenHeader(token),
 						_1: {ctor: '[]'}
 					},
-					url: _user$project$Commands$getBlogListUrl(api_url),
+					url: _user$project$Commands$getPostListUrl(api_url),
 					body: _elm_lang$http$Http$emptyBody,
-					expect: _user$project$Commands$bloglistExpect,
+					expect: _user$project$Commands$postlistExpect,
 					timeout: _elm_lang$core$Maybe$Nothing,
 					withCredentials: false
 				}));
@@ -10295,13 +10295,13 @@ var _user$project$Routing$urlFor = F2(
 				return A2(_elm_lang$core$Basics_ops['++'], src_url, '/logout');
 			case 'RegisterRoute':
 				return A2(_elm_lang$core$Basics_ops['++'], src_url, '/register');
-			case 'BlogListRoute':
-				return A2(_elm_lang$core$Basics_ops['++'], src_url, '/bloglist');
-			case 'BlogDetailRoute':
+			case 'PostListRoute':
+				return A2(_elm_lang$core$Basics_ops['++'], src_url, '/postlist');
+			case 'PostDetailRoute':
 				return A2(
 					_elm_lang$core$Basics_ops['++'],
 					src_url,
-					A2(_elm_lang$core$Basics_ops['++'], '/blogdetail', _p0._0));
+					A2(_elm_lang$core$Basics_ops['++'], '/postdetail', _p0._0));
 			case 'ProjectListRoute':
 				return A2(_elm_lang$core$Basics_ops['++'], src_url, '/projectlist');
 			case 'ProjectDetailRoute':
@@ -10344,10 +10344,10 @@ var _user$project$Routing$ProjectDetailRoute = function (a) {
 	return {ctor: 'ProjectDetailRoute', _0: a};
 };
 var _user$project$Routing$ProjectListRoute = {ctor: 'ProjectListRoute'};
-var _user$project$Routing$BlogDetailRoute = function (a) {
-	return {ctor: 'BlogDetailRoute', _0: a};
+var _user$project$Routing$PostDetailRoute = function (a) {
+	return {ctor: 'PostDetailRoute', _0: a};
 };
-var _user$project$Routing$BlogListRoute = {ctor: 'BlogListRoute'};
+var _user$project$Routing$PostListRoute = {ctor: 'PostListRoute'};
 var _user$project$Routing$RegisterRoute = {ctor: 'RegisterRoute'};
 var _user$project$Routing$LogoutRoute = {ctor: 'LogoutRoute'};
 var _user$project$Routing$LoginRoute = {ctor: 'LoginRoute'};
@@ -10356,10 +10356,10 @@ var _user$project$Routing$routingItem = function (src_url) {
 		ctor: '::',
 		_0: {
 			ctor: '_Tuple4',
-			_0: 'Blog',
+			_0: 'Post',
 			_1: 'fa fa-apps',
-			_2: _user$project$Routing$BlogListRoute,
-			_3: A2(_elm_lang$core$Basics_ops['++'], src_url, '/bloglist')
+			_2: _user$project$Routing$PostListRoute,
+			_3: A2(_elm_lang$core$Basics_ops['++'], src_url, '/postlist')
 		},
 		_1: {
 			ctor: '::',
@@ -10419,10 +10419,10 @@ var _user$project$Routing$routingItemHomePage = function (src_url) {
 		ctor: '::',
 		_0: {
 			ctor: '_Tuple4',
-			_0: 'Blog',
+			_0: 'Post',
 			_1: 'fa fa-apps',
-			_2: _user$project$Routing$BlogListRoute,
-			_3: A2(_elm_lang$core$Basics_ops['++'], src_url, '/bloglist')
+			_2: _user$project$Routing$PostListRoute,
+			_3: A2(_elm_lang$core$Basics_ops['++'], src_url, '/postlist')
 		},
 		_1: {
 			ctor: '::',
@@ -10452,10 +10452,10 @@ var _user$project$Routing$routingItemNormalHeader = function (src_url) {
 		ctor: '::',
 		_0: {
 			ctor: '_Tuple4',
-			_0: 'Blog',
+			_0: 'Post',
 			_1: 'fa fa-apps',
-			_2: _user$project$Routing$BlogListRoute,
-			_3: A2(_elm_lang$core$Basics_ops['++'], src_url, '/bloglist')
+			_2: _user$project$Routing$PostListRoute,
+			_3: A2(_elm_lang$core$Basics_ops['++'], src_url, '/postlist')
 		},
 		_1: {
 			ctor: '::',
@@ -10520,22 +10520,22 @@ var _user$project$Routing$matchers = function (src_url) {
 							ctor: '::',
 							_0: A2(
 								_evancz$url_parser$UrlParser$map,
-								_user$project$Routing$BlogListRoute,
+								_user$project$Routing$PostListRoute,
 								A2(
 									_user$project$Routing$parseAppend,
 									src_url,
-									_evancz$url_parser$UrlParser$s('bloglist'))),
+									_evancz$url_parser$UrlParser$s('postlist'))),
 							_1: {
 								ctor: '::',
 								_0: A2(
 									_evancz$url_parser$UrlParser$map,
-									_user$project$Routing$BlogDetailRoute,
+									_user$project$Routing$PostDetailRoute,
 									A2(
 										_evancz$url_parser$UrlParser_ops['</>'],
 										A2(
 											_user$project$Routing$parseAppend,
 											src_url,
-											_evancz$url_parser$UrlParser$s('blogdetail')),
+											_evancz$url_parser$UrlParser$s('postdetail')),
 										_evancz$url_parser$UrlParser$string)),
 								_1: {
 									ctor: '::',
@@ -10580,15 +10580,15 @@ var _user$project$Routing$parseLocation = F2(
 			return _user$project$Routing$NotFoundRoute;
 		}
 	});
-var _user$project$Routing$routingItemBlog = function (src_url) {
+var _user$project$Routing$routingItemPost = function (src_url) {
 	return {
 		ctor: '::',
 		_0: {
 			ctor: '_Tuple4',
-			_0: 'BlogHome',
+			_0: 'PostHome',
 			_1: 'fa fa-apps',
-			_2: _user$project$Routing$BlogListRoute,
-			_3: A2(_elm_lang$core$Basics_ops['++'], src_url, '/bloglist')
+			_2: _user$project$Routing$PostListRoute,
+			_3: A2(_elm_lang$core$Basics_ops['++'], src_url, '/postlist')
 		},
 		_1: {
 			ctor: '::',
@@ -10629,7 +10629,7 @@ var _user$project$Models$initialModel = F3(
 			newMessage: '',
 			latitude: 34.1243494,
 			longitude: 108.59336,
-			blogList: {ctor: '[]'}
+			postList: {ctor: '[]'}
 		};
 	});
 var _user$project$Models$Url = F3(
@@ -10638,7 +10638,7 @@ var _user$project$Models$Url = F3(
 	});
 var _user$project$Models$Model = F8(
 	function (a, b, c, d, e, f, g, h) {
-		return {ui: a, route: b, url: c, user: d, newMessage: e, latitude: f, longitude: g, blogList: h};
+		return {ui: a, route: b, url: c, user: d, newMessage: e, latitude: f, longitude: g, postList: h};
 	});
 
 var _user$project$Views_Map$decodeLatLong = function (str) {
@@ -12005,7 +12005,7 @@ var _user$project$Views_Login$loginView = function (model) {
 		});
 };
 
-var _user$project$Views_BlogList$navItem = F2(
+var _user$project$Views_PostList$navItem = F2(
 	function (model, _p0) {
 		var _p1 = _p0;
 		return A2(
@@ -12042,7 +12042,7 @@ var _user$project$Views_BlogList$navItem = F2(
 				_1: {ctor: '[]'}
 			});
 	});
-var _user$project$Views_BlogList$navContainer = function (model) {
+var _user$project$Views_PostList$navContainer = function (model) {
 	return A2(
 		_elm_lang$html$Html$nav,
 		{
@@ -12061,12 +12061,12 @@ var _user$project$Views_BlogList$navContainer = function (model) {
 				},
 				A2(
 					_elm_lang$core$List$map,
-					_user$project$Views_BlogList$navItem(model),
-					_user$project$Routing$routingItemBlog(model.url.src_url))),
+					_user$project$Views_PostList$navItem(model),
+					_user$project$Routing$routingItemPost(model.url.src_url))),
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$Views_BlogList$footer = A2(
+var _user$project$Views_PostList$footer = A2(
 	_elm_lang$html$Html$div,
 	{
 		ctor: '::',
@@ -12108,7 +12108,7 @@ var _user$project$Views_BlogList$footer = A2(
 			}),
 		_1: {ctor: '[]'}
 	});
-var _user$project$Views_BlogList$post = function (blogMetaInfo) {
+var _user$project$Views_PostList$post = function (postMetaInfo) {
 	return A2(
 		_elm_lang$html$Html$section,
 		{
@@ -12142,7 +12142,7 @@ var _user$project$Views_BlogList$post = function (blogMetaInfo) {
 							},
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html$text(blogMetaInfo.title),
+								_0: _elm_lang$html$Html$text(postMetaInfo.title),
 								_1: {ctor: '[]'}
 							}),
 						_1: {
@@ -12168,7 +12168,7 @@ var _user$project$Views_BlogList$post = function (blogMetaInfo) {
 											},
 											{
 												ctor: '::',
-												_0: _elm_lang$html$Html$text(blogMetaInfo.author),
+												_0: _elm_lang$html$Html$text(postMetaInfo.author),
 												_1: {ctor: '[]'}
 											}),
 										_1: {
@@ -12226,14 +12226,14 @@ var _user$project$Views_BlogList$post = function (blogMetaInfo) {
 						_0: A2(
 							_evancz$elm_markdown$Markdown$toHtml,
 							{ctor: '[]'},
-							blogMetaInfo.description),
+							postMetaInfo.description),
 						_1: {ctor: '[]'}
 					}),
 				_1: {ctor: '[]'}
 			}
 		});
 };
-var _user$project$Views_BlogList$posts = function (model) {
+var _user$project$Views_PostList$posts = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{
@@ -12241,9 +12241,9 @@ var _user$project$Views_BlogList$posts = function (model) {
 			_0: _elm_lang$html$Html_Attributes$class('posts'),
 			_1: {ctor: '[]'}
 		},
-		A2(_elm_lang$core$List$map, _user$project$Views_BlogList$post, model.blogList));
+		A2(_elm_lang$core$List$map, _user$project$Views_PostList$post, model.postList));
 };
-var _user$project$Views_BlogList$content = function (model) {
+var _user$project$Views_PostList$content = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{
@@ -12258,17 +12258,17 @@ var _user$project$Views_BlogList$content = function (model) {
 				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _user$project$Views_BlogList$posts(model),
+					_0: _user$project$Views_PostList$posts(model),
 					_1: {
 						ctor: '::',
-						_0: _user$project$Views_BlogList$footer,
+						_0: _user$project$Views_PostList$footer,
 						_1: {ctor: '[]'}
 					}
 				}),
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$Views_BlogList$blogHeader = function (model) {
+var _user$project$Views_PostList$postHeader = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{
@@ -12282,7 +12282,7 @@ var _user$project$Views_BlogList$blogHeader = function (model) {
 				_elm_lang$html$Html$div,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('blog-header'),
+					_0: _elm_lang$html$Html_Attributes$class('post-header'),
 					_1: {ctor: '[]'}
 				},
 				{
@@ -12296,7 +12296,7 @@ var _user$project$Views_BlogList$blogHeader = function (model) {
 						},
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html$text('Meilab Blog'),
+							_0: _elm_lang$html$Html$text('Meilab Post'),
 							_1: {ctor: '[]'}
 						}),
 					_1: {
@@ -12315,7 +12315,7 @@ var _user$project$Views_BlogList$blogHeader = function (model) {
 							}),
 						_1: {
 							ctor: '::',
-							_0: _user$project$Views_BlogList$navContainer(model),
+							_0: _user$project$Views_PostList$navContainer(model),
 							_1: {ctor: '[]'}
 						}
 					}
@@ -12323,12 +12323,12 @@ var _user$project$Views_BlogList$blogHeader = function (model) {
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$Views_BlogList$bloglistView = function (model) {
+var _user$project$Views_PostList$postlistView = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$id('blog-layout'),
+			_0: _elm_lang$html$Html_Attributes$id('post-layout'),
 			_1: {
 				ctor: '::',
 				_0: _elm_lang$html$Html_Attributes$class('pure-g'),
@@ -12337,16 +12337,16 @@ var _user$project$Views_BlogList$bloglistView = function (model) {
 		},
 		{
 			ctor: '::',
-			_0: _user$project$Views_BlogList$blogHeader(model),
+			_0: _user$project$Views_PostList$postHeader(model),
 			_1: {
 				ctor: '::',
-				_0: _user$project$Views_BlogList$content(model),
+				_0: _user$project$Views_PostList$content(model),
 				_1: {ctor: '[]'}
 			}
 		});
 };
 
-var _user$project$Views_BlogDetail$blogdetailView = F2(
+var _user$project$Views_PostDetail$postdetailView = F2(
 	function (model, slug) {
 		return A2(
 			_elm_lang$html$Html$div,
@@ -12464,34 +12464,34 @@ var _user$project$Views$view = function (model) {
 					_0: _user$project$Views_Login$loginView(model),
 					_1: _user$project$Views$defaultHeader('Sign Up')
 				};
-			case 'BlogListRoute':
+			case 'PostListRoute':
 				return {
 					ctor: '_Tuple2',
-					_0: _user$project$Views_BlogList$bloglistView(model),
-					_1: _user$project$Views$defaultHeader('BlogList')
+					_0: _user$project$Views_PostList$postlistView(model),
+					_1: _user$project$Views$defaultHeader('PostList')
 				};
-			case 'BlogDetailRoute':
+			case 'PostDetailRoute':
 				return {
 					ctor: '_Tuple2',
-					_0: A2(_user$project$Views_BlogDetail$blogdetailView, model, _p3._0),
-					_1: _user$project$Views$defaultHeader('BlogDetail')
+					_0: A2(_user$project$Views_PostDetail$postdetailView, model, _p3._0),
+					_1: _user$project$Views$defaultHeader('PostDetail')
 				};
 			case 'ProjectListRoute':
 				return {
 					ctor: '_Tuple2',
-					_0: _user$project$Views_BlogList$bloglistView(model),
+					_0: _user$project$Views_PostList$postlistView(model),
 					_1: _user$project$Views$defaultHeader('ProjectList')
 				};
 			case 'ProjectDetailRoute':
 				return {
 					ctor: '_Tuple2',
-					_0: A2(_user$project$Views_BlogDetail$blogdetailView, model, _p3._0),
-					_1: _user$project$Views$defaultHeader('BlogDetail')
+					_0: A2(_user$project$Views_PostDetail$postdetailView, model, _p3._0),
+					_1: _user$project$Views$defaultHeader('PostDetail')
 				};
 			case 'TrainingListRoute':
 				return {
 					ctor: '_Tuple2',
-					_0: _user$project$Views_BlogList$bloglistView(model),
+					_0: _user$project$Views_PostList$postlistView(model),
 					_1: _user$project$Views$defaultHeader('TrainingList')
 				};
 			default:
@@ -12508,10 +12508,10 @@ var _user$project$Views$view = function (model) {
 	switch (_p4.ctor) {
 		case 'HomeRoute':
 			return _user$project$Views_Home$homeView(model);
-		case 'BlogListRoute':
-			return _user$project$Views_BlogList$bloglistView(model);
-		case 'BlogDetailRoute':
-			return A2(_user$project$Views_BlogDetail$blogdetailView, model, _p4._0);
+		case 'PostListRoute':
+			return _user$project$Views_PostList$postlistView(model);
+		case 'PostDetailRoute':
+			return A2(_user$project$Views_PostDetail$postdetailView, model, _p4._0);
 		case 'LoginRoute':
 			return _user$project$Views_Login$loginView(model);
 		default:
@@ -12577,9 +12577,9 @@ var _user$project$Update$changeUrlCommand = F2(
 					return _elm_lang$core$Platform_Cmd$none;
 				case 'HomeRoute':
 					return _elm_lang$core$Platform_Cmd$none;
-				case 'BlogListRoute':
-					return A2(_user$project$Commands$getBlogList, model.user.token, model.url.api_url);
-				case 'BlogDetailRoute':
+				case 'PostListRoute':
+					return A2(_user$project$Commands$getPostList, model.user.token, model.url.api_url);
+				case 'PostDetailRoute':
 					return _elm_lang$core$Platform_Cmd$none;
 				case 'ProjectListRoute':
 					return _elm_lang$core$Platform_Cmd$none;
@@ -12693,7 +12693,7 @@ var _user$project$Update$update = F2(
 						var _p8 = token;
 						if (_p8.ctor === 'Just') {
 							return _elm_lang$navigation$Navigation$newUrl(
-								A2(_elm_lang$core$Basics_ops['++'], model.url.src_url, '/bloglist'));
+								A2(_elm_lang$core$Basics_ops['++'], model.url.src_url, '/postlist'));
 						} else {
 							return _elm_lang$core$Platform_Cmd$none;
 						}
@@ -12711,13 +12711,13 @@ var _user$project$Update$update = F2(
 						_elm_lang$core$Basics$toString(_p3._0._0),
 						{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
 				}
-			case 'OnBlogListResponse':
+			case 'OnPostListResponse':
 				if (_p3._0.ctor === 'Ok') {
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
-							{blogList: _p3._0._0}),
+							{postList: _p3._0._0}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				} else {

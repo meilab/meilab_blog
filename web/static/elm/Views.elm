@@ -11,8 +11,8 @@ import Markdown
 import Routing exposing (Route(..), routingItem, tabsTitles, routingItemNormalHeader)
 import Views.Home exposing (homeView)
 import Views.Login exposing (loginView)
-import Views.BlogList exposing (bloglistView)
-import Views.BlogDetail exposing (blogdetailView)
+import Views.PostList exposing (postlistView)
+import Views.PostDetail exposing (postdetailView)
 import ViewHelpers exposing (menuHeading, navItem, fixedHeader, menuLinkItem)
 import Routing exposing (routingItem)
 
@@ -34,20 +34,20 @@ view model =
                 RegisterRoute ->
                     ( loginView model, defaultHeader "Sign Up" )
 
-                BlogListRoute ->
-                    ( bloglistView model, defaultHeader "BlogList" )
+                PostListRoute ->
+                    ( postlistView model, defaultHeader "PostList" )
 
-                BlogDetailRoute slug ->
-                    ( blogdetailView model slug, defaultHeader "BlogDetail" )
+                PostDetailRoute slug ->
+                    ( postdetailView model slug, defaultHeader "PostDetail" )
 
                 ProjectListRoute ->
-                    ( bloglistView model, defaultHeader "ProjectList" )
+                    ( postlistView model, defaultHeader "ProjectList" )
 
                 ProjectDetailRoute slug ->
-                    ( blogdetailView model slug, defaultHeader "BlogDetail" )
+                    ( postdetailView model slug, defaultHeader "PostDetail" )
 
                 TrainingListRoute ->
-                    ( bloglistView model, defaultHeader "TrainingList" )
+                    ( postlistView model, defaultHeader "TrainingList" )
 
                 NotFoundRoute ->
                     ( notFoundView, defaultHeader "Page Not Found" )
@@ -64,11 +64,11 @@ view model =
             HomeRoute ->
                 homeView model
 
-            BlogListRoute ->
-                bloglistView model
+            PostListRoute ->
+                postlistView model
 
-            BlogDetailRoute slug ->
-                blogdetailView model slug
+            PostDetailRoute slug ->
+                postdetailView model slug
 
             LoginRoute ->
                 loginView model

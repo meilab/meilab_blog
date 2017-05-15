@@ -1,4 +1,4 @@
-module Views.BlogDetail exposing (blogdetailView)
+module Views.PostDetail exposing (postdetailView)
 
 import Html exposing (..)
 import Html.Attributes exposing (type_, value, class, for, id, placeholder)
@@ -8,7 +8,7 @@ import Models exposing (Model)
 import Views.Map exposing (mapView)
 
 
-blogdetailView : Model -> String -> Html Msg
-blogdetailView model slug =
+postdetailView : Model -> String -> Html Msg
+postdetailView model slug =
     div []
         [ mapView model ]

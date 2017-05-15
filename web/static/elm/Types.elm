@@ -14,11 +14,11 @@ type alias User =
     }
 
 
-type alias BlogList =
-    List BlogMetaInfo
+type alias PostList =
+    List PostMetaInfo
 
 
-type alias BlogMetaInfo =
+type alias PostMetaInfo =
     { slug : String
     , author : String
     , title : String

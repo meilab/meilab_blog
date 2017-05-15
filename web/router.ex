@@ -19,8 +19,8 @@ defmodule MeilabBlog.Router do
     get "/", PageController, :index
     get "/login", PageController, :index
     get "/register", PageController, :index
-    get "/bloglist", PageController, :index
-    get "/blogdetail/:slug", PageController, :index
+    get "/postlist", PageController, :index
+    get "/postdetail/:slug", PageController, :index
     get "/projectlist", PageController, :index
     get "/projectdetail/:slug", PageController, :index
     get "/rent", PageController, :index

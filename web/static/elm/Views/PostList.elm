@@ -1,4 +1,4 @@
-module Views.BlogList exposing (bloglistView)
+module Views.PostList exposing (postlistView)
 
 import Html exposing (..)
 import Html.Attributes exposing (href, type_, value, class, for, id, placeholder)
@@ -6,24 +6,24 @@ import Html.Events exposing (onInput, onSubmit)
 import Messages exposing (Msg(..))
 import Models exposing (Model)
 import ViewHelpers exposing (navigationOnClick, contactLink)
-import Routing exposing (Route(..), urlFor, routingItemBlog)
+import Routing exposing (Route(..), urlFor, routingItemPost)
 import Markdown exposing (toHtml)
-import Types exposing (BlogMetaInfo)
+import Types exposing (PostMetaInfo)
 
 
-bloglistView : Model -> Html Msg
-bloglistView model =
-    div [ id "blog-layout", class "pure-g" ]
-        [ blogHeader model
+postlistView : Model -> Html Msg
+postlistView model =
+    div [ id "post-layout", class "pure-g" ]
+        [ postHeader model
         , content model
         ]
 
 
-blogHeader : Model -> Html Msg
-blogHeader model =
+postHeader : Model -> Html Msg
+postHeader model =
     div [ class "sidebar pure-u-1 pure-u-md-1-4" ]
-        [ div [ class "blog-header" ]
-            [ h1 [ class "brand-title" ] [ text "Meilab Blog" ]
+        [ div [ class "post-header" ]
+            [ h1 [ class "brand-title" ] [ text "Meilab Post" ]
             , h2 [ class "brand-tagline" ] [ text "Elixir Phoenix Elm ReactNative C MQTT Socket" ]
             , navContainer model
             ]
@@ -43,27 +43,27 @@ content model =
 posts : Model -> Html Msg
 posts model =
     div [ class "posts" ]
-        (model.blogList
+        (model.postList
             |> List.map post
         )
 
 
-post : BlogMetaInfo -> Html Msg
-post blogMetaInfo =
+post : PostMetaInfo -> Html Msg
+post postMetaInfo =
     section [ class "post" ]
         [ header [ class "post-header" ]
             [ img [] []
-            , h2 [ class "post-title" ] [ text blogMetaInfo.title ]
+            , h2 [ class "post-title" ] [ text postMetaInfo.title ]
             , p [ class "post-meta" ]
                 [ text "By"
-                , a [ class "post-author" ] [ text blogMetaInfo.author ]
+                , a [ class "post-author" ] [ text postMetaInfo.author ]
                 , text "Under"
                 , a [ class "post-category post-category-design" ] [ text "Pure" ]
                 , a [ class "post-category post-category-pure" ] [ text "CSS" ]
                 ]
             ]
         , div [ class "post-description" ]
-            [ toHtml [] blogMetaInfo.description
+            [ toHtml [] postMetaInfo.description
             ]
         ]
 
@@ -86,7 +86,7 @@ navContainer : Model -> Html Msg
 navContainer model =
     nav [ class "nav" ]
         [ ul [ class "nav-list" ]
-            (List.map (navItem model) (routingItemBlog model.url.src_url))
+            (List.map (navItem model) (routingItemPost model.url.src_url))
         ]
 
 

@@ -12,7 +12,7 @@ import Routing exposing (Route(..), parseLocation, tabsUrls, urlTabs)
 import Array exposing (Array)
 import Dict exposing (Dict)
 import Helpers exposing (cmd)
-import Commands exposing (authRequest, getBlogList)
+import Commands exposing (authRequest, getPostList)
 
 
 changeUrlCommand : Model -> Route -> Cmd Msg
@@ -26,10 +26,10 @@ changeUrlCommand model route =
                 HomeRoute ->
                     Cmd.none
 
-                BlogListRoute ->
-                    getBlogList model.user.token model.url.api_url
+                PostListRoute ->
+                    getPostList model.user.token model.url.api_url
 
-                BlogDetailRoute slug ->
+                PostDetailRoute slug ->
                     Cmd.none
 
                 ProjectListRoute ->
@@ -138,7 +138,7 @@ update msg model =
                 newCmd =
                     case token of
                         Just exhibitionToken ->
-                            Navigation.newUrl (model.url.src_url ++ "/bloglist")
+                            Navigation.newUrl (model.url.src_url ++ "/postlist")
 
                         Nothing ->
                             Cmd.none
@@ -149,10 +149,10 @@ update msg model =
             Debug.log (toString (error))
                 ( model, Cmd.none )
 
-        OnBlogListResponse (Ok blogList) ->
-            ( { model | blogList = blogList }, Cmd.none )
+        OnPostListResponse (Ok postList) ->
+            ( { model | postList = postList }, Cmd.none )
 
-        OnBlogListResponse (Err error) ->
+        OnPostListResponse (Err error) ->
             Debug.log (toString (error))
                 ( model, Cmd.none )
 

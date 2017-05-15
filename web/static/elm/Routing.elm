@@ -14,8 +14,8 @@ type Route
   -- clear userinfo and redirect to HomeRoute
   | LogoutRoute
   | RegisterRoute
-  | BlogListRoute
-  | BlogDetailRoute String
+  | PostListRoute
+  | PostDetailRoute String
   | ProjectListRoute
   | ProjectDetailRoute String
   | TrainingListRoute
@@ -42,8 +42,8 @@ matchers src_url =
     , map LoginRoute ( parseAppend src_url ( s "login" ) )
     , map LogoutRoute ( parseAppend src_url ( s "logout" ) )
     , map RegisterRoute ( parseAppend src_url ( s "register" ) )
-    , map BlogListRoute ( parseAppend src_url ( s "bloglist" ) )
-    , map BlogDetailRoute ( parseAppend src_url ( s "blogdetail" ) </> string )
+    , map PostListRoute ( parseAppend src_url ( s "postlist" ) )
+    , map PostDetailRoute ( parseAppend src_url ( s "postdetail" ) </> string )
     , map ProjectListRoute ( parseAppend src_url ( s "projectlist" ) )
     , map ProjectDetailRoute ( parseAppend src_url ( s "projectdetail" ) </> string )
     ]
@@ -67,10 +67,10 @@ urlFor src_url route =
       src_url ++ "/logout"
     RegisterRoute ->
       src_url ++ "/register"
-    BlogListRoute ->
-      src_url ++ "/bloglist"
-    BlogDetailRoute slug->
-      src_url ++ "/blogdetail" ++ slug
+    PostListRoute ->
+      src_url ++ "/postlist"
+    PostDetailRoute slug->
+      src_url ++ "/postdetail" ++ slug
     ProjectListRoute ->
       src_url ++ "/projectlist"
     ProjectDetailRoute slug->
@@ -83,28 +83,28 @@ urlFor src_url route =
 
 routingItem : String -> List ( String, String, Route, String )
 routingItem src_url =
-  [ ( "Blog", "fa fa-apps", BlogListRoute, src_url ++ "/bloglist" )
+  [ ( "Post", "fa fa-apps", PostListRoute, src_url ++ "/postlist" )
   , ( "Project", "fa fa-list", ProjectListRoute, src_url ++ "/projectlist" )
   , ( "Login", "fa fa-male", LoginRoute, src_url ++ "/login" )
   ]
 
 routingItemHomePage : String -> List ( String, String, Route, String )
 routingItemHomePage src_url =
-  [ ( "Blog", "fa fa-apps", BlogListRoute, src_url ++ "/bloglist" )
+  [ ( "Post", "fa fa-apps", PostListRoute, src_url ++ "/postlist" )
   , ( "Project", "fa fa-list", ProjectListRoute, src_url ++ "/projectlist" )
   , ( "Login", "fa fa-male", LoginRoute, src_url ++ "/login" )
   ]
 
 routingItemNormalHeader : String -> List ( String, String, Route, String )
 routingItemNormalHeader src_url =
-  [ ( "Blog", "fa fa-apps", BlogListRoute, src_url ++ "/bloglist" )
+  [ ( "Post", "fa fa-apps", PostListRoute, src_url ++ "/postlist" )
   , ( "Project", "fa fa-list", ProjectListRoute, src_url ++ "/projectlist" )
   , ( "Login", "fa fa-male", LoginRoute, src_url ++ "/login" )
   ]
 
-routingItemBlog : String -> List ( String, String, Route, String )
-routingItemBlog src_url =
-  [ ( "BlogHome", "fa fa-apps", BlogListRoute, src_url ++ "/bloglist" )
+routingItemPost : String -> List ( String, String, Route, String )
+routingItemPost src_url =
+  [ ( "PostHome", "fa fa-apps", PostListRoute, src_url ++ "/postlist" )
   , ( "Meilab", "fa fa-list", HomeRoute, src_url ++ "/" )
   , ( "Training", "fa fa-male", TrainingListRoute, src_url ++ "/login" )
   ]

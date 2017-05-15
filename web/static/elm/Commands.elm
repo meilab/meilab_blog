@@ -1,11 +1,11 @@
-module Commands exposing (authRequest, getBlogList)
+module Commands exposing (authRequest, getPostList)
 
 import Http exposing (..)
 import Json.Decode as JD exposing (at)
 import Json.Encode as JE
 import Json.Decode.Pipeline exposing (decode, required, optional)
 import Messages exposing (..)
-import Types exposing (AuthResponse, BlogList, BlogMetaInfo)
+import Types exposing (AuthResponse, PostList, PostMetaInfo)
 import Helpers exposing (tokenHeader)
 import Maybe
 
@@ -29,22 +29,22 @@ authRequestUrl api_url =
     api_url ++ "/auth"
 
 
-getBlogList : Maybe String -> String -> Cmd Msg
-getBlogList token api_url =
+getPostList : Maybe String -> String -> Cmd Msg
+getPostList token api_url =
     Http.request
         { method = "GET"
         , headers = [ (tokenHeader token) ]
-        , url = getBlogListUrl api_url
+        , url = getPostListUrl api_url
         , body = emptyBody
-        , expect = bloglistExpect
+        , expect = postlistExpect
         , timeout = Nothing
         , withCredentials = False
         }
-        |> Http.send OnBlogListResponse
+        |> Http.send OnPostListResponse
 
 
-getBlogListUrl : String -> String
-getBlogListUrl api_url =
+getPostListUrl : String -> String
+getPostListUrl api_url =
     api_url ++ "/posts"
 
 
@@ -78,19 +78,19 @@ collectionDecoder =
         |> required "token" JD.string
 
 
-bloglistExpect : Expect BlogList
-bloglistExpect =
-    expectJson bloglistDecoder
+postlistExpect : Expect PostList
+postlistExpect =
+    expectJson postlistDecoder
 
 
-bloglistDecoder : JD.Decoder BlogList
-bloglistDecoder =
-    JD.list blogMetaInfoDecoder
+postlistDecoder : JD.Decoder PostList
+postlistDecoder =
+    JD.list postMetaInfoDecoder
 
 
-blogMetaInfoDecoder : JD.Decoder BlogMetaInfo
-blogMetaInfoDecoder =
-    decode BlogMetaInfo
+postMetaInfoDecoder : JD.Decoder PostMetaInfo
+postMetaInfoDecoder =
+    decode PostMetaInfo
         |> required "slug" JD.string
         |> required "author" JD.string
         |> required "title" JD.string
