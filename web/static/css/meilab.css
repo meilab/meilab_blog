@@ -1,4 +1,4 @@
-.meilabLayout {
+.meilabMarketingLayout {
     display: flex;
     flex-direction: column;
 }
@@ -49,16 +49,6 @@
     color: #3b5998;
 }
 
-.meilabFooter {
-    background-color: #1F0808;
-    height: 64px;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
 @media screen and ( min-width: 48em) {
         body {
     font-size: 16px;
@@ -94,6 +84,27 @@ body {
 
 .meilabLayout {
     display: flex;
+    flex-direction: row;
+}
+
+.meilabSideBarWrapper {
+    flex: 0 0 150px;
+}
+
+.meilabContentWrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.meilabSideBarMenu {
+    position: fixed;
+    width: 150px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background-color: rgba(164, 0, 48, 0.5);
 }
 
 .meilabMenuContainer {
@@ -109,6 +120,13 @@ body {
 .meilabFixedNavBarContainer {
     position: fixed;
     width: 100vw;
+}
+
+.meilabLayoutNavBar {
+    flex: 0 0 64px;
+}
+
+.meilabFixedNavBarContainer, .meilabLayoutNavBar {
     background-color: #39CCCC;
     display: flex;
     justify-content: stretch;
@@ -127,3 +145,19 @@ body {
 .meilabMenuList  a {
     text-decoration: none;
 }
+
+.meilabVerticalMenuList {
+    flex-direction: column;
+}
+
+.meilabFooter {
+    background-color: #1F0808;
+    height: 64px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+

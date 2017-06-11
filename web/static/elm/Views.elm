@@ -13,10 +13,10 @@ import Views.Home exposing (homeView)
 import Views.Login exposing (loginView)
 import Views.PostList exposing (postlistView)
 import Views.PostDetail exposing (postdetailView)
-import ViewHelpers exposing (menuHeadingLinkItem, navItem, layoutHeader)
+import ViewHelpers exposing (menuHeadingLinkItem, navItem, layoutNavBar)
 import Routing exposing (routingItem)
 import Html.CssHelpers
-import Styles.LayoutStyle as Style
+import Styles.SharedStyles exposing (..)
 
 
 { id, class, classList } =
@@ -61,10 +61,10 @@ view model =
         ( layoutClass, contentOnClickCmd ) =
             case model.ui.sideMenuActive of
                 True ->
-                    ( Style.MenuActive, ToggleSideMenu )
+                    ( MenuActive, ToggleSideMenu )
 
                 False ->
-                    ( Style.MenuInActive, NoOp )
+                    ( MenuInActive, NoOp )
     in
         case model.route of
             HomeRoute ->
@@ -80,24 +80,26 @@ view model =
                 loginView model
 
             _ ->
-                div [ class [ Style.Layout, layoutClass ] ]
-                    [ menu model
-                    , layoutHeader model "HNA" routingItemNormalHeader
-
-                    -- , defaultHeader
-                    , div [ onClick contentOnClickCmd ]
-                        [ contentView
+                div [ class [ Layout, layoutClass ] ]
+                    [ sidebar model
+                    , div [ class [ ContentWrapper ] ]
+                        [ layoutNavBar model "HNA" routingItemNormalHeader
+                        , div [ onClick contentOnClickCmd ]
+                            [ contentView
+                            ]
                         ]
                     ]
 
 
-menu : Model -> Html Msg
-menu model =
-    div [ class [ Style.SideBarMenu ] ]
-        [ nav [ class [ Style.MenuContainer ] ]
-            [ (menuHeadingLinkItem "" "/" "HNA")
+sidebar : Model -> Html Msg
+sidebar model =
+    div [ class [ SideBarWrapper ] ]
+        [ nav [ class [ SideBarMenu ] ]
+            [ ul
+                [ class [ MenuList, VerticalMenuList ] ]
+                [ (menuHeadingLinkItem "" "/" "HNA") ]
             , ul
-                [ class [ Style.MenuList ] ]
+                [ class [ MenuList, VerticalMenuList ] ]
                 (List.map (navItem model) (routingItem model.url.src_url))
             ]
         ]

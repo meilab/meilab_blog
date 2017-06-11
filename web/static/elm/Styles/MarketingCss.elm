@@ -1,4 +1,4 @@
-module Styles.MarketingStyle exposing (..)
+module Styles.MarketingCss exposing (..)
 
 import Css exposing (..)
 import Css.Elements exposing (..)
@@ -7,35 +7,13 @@ import Css.Namespace exposing (namespace)
 import Html.CssHelpers exposing (withNamespace)
 import Styles.Matrix exposing (..)
 import Styles.Colors exposing (..)
-
-
-type CssClass
-    = Layout
-    | SplashContainer
-    | Splash
-    | SplashHead
-    | SplashSubhead
-    | ContentContainer
-    | Content
-    | ContentHead
-    | ContentHeadRibbon
-    | ContentSubhead
-    | Ribbon
-    | Footer
-    | GroupContainer
-    | SubContainer
-    | Button
-
-
-marketingNamespace : Html.CssHelpers.Namespace String class id msg
-marketingNamespace =
-    withNamespace "meilab"
+import Styles.SharedStyles exposing (..)
 
 
 css : Stylesheet
 css =
-    (stylesheet << namespace marketingNamespace.name)
-        [ class Layout
+    (stylesheet << namespace meilabNamespace.name)
+        [ class MarketingLayout
             [ displayFlex
             , flexDirection column
             ]
@@ -75,15 +53,6 @@ css =
             ]
         , class ContentSubhead
             [ color facebook ]
-        , class Footer
-            [ backgroundColor background
-            , height navBarHeight
-            , textAlign center
-            , displayFlex
-            , justifyContent center
-            , alignItems center
-            , textAlign center
-            ]
         , mediaQuery "screen and ( min-width: 48em)"
             [ body
                 [ fontSize (px 16) ]

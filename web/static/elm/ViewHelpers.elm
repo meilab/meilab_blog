@@ -9,7 +9,8 @@ import Json.Decode as JD
 import Models exposing (Model)
 import Routing exposing (Route)
 import Html.CssHelpers
-import Styles.LayoutStyle as Style
+import Styles.SharedStyles exposing (..)
+import Styles.SharedStyles
 
 
 { id, class, classList } =
@@ -27,35 +28,35 @@ navigationOnClick msg =
 
 navContainer : Model -> Html Msg
 navContainer model =
-    nav [ class [ Style.MenuContainer ] ]
+    nav [ class [ MenuContainer ] ]
         [ ul []
             (List.map (navItem model) (routingItem model.url.src_url))
         ]
 
 
-marketingFixedHeader : Model -> String -> (String -> List ( String, String, Route, String )) -> Html Msg
-marketingFixedHeader model siteTitle routingItem =
-    div [ class [ Style.NavBarWrapper ] ]
-        [ nav [ class [ Style.FixedNavBarContainer ] ]
-            [ ul [ class [ Style.MenuList ] ]
+marketingFixedNavBar : Model -> String -> (String -> List ( String, String, Route, String )) -> Html Msg
+marketingFixedNavBar model siteTitle routingItem =
+    div [ class [ NavBarWrapper ] ]
+        [ nav [ class [ FixedNavBarContainer ] ]
+            [ ul [ class [ MenuList ] ]
                 [ menuHeadingLinkItem "" "/" siteTitle ]
             , ul
-                [ class [ Style.MenuList ] ]
+                [ class [ MenuList ] ]
                 (List.map (navItem model) (routingItem model.url.src_url))
             ]
         ]
 
 
-layoutHeader : Model -> String -> (String -> List ( String, String, Route, String )) -> Html Msg
-layoutHeader model siteTitle routingItem =
+layoutNavBar : Model -> String -> (String -> List ( String, String, Route, String )) -> Html Msg
+layoutNavBar model siteTitle routingItem =
     nav
-        [ class [ Style.LayoutHeader ]
+        [ class [ LayoutNavBar ]
         ]
         [ ul
-            [ class [ Style.MenuList ] ]
+            [ class [ MenuList ] ]
             [ menuHeadingLinkItem "" "/" siteTitle ]
         , ul
-            [ class [ Style.MenuList ] ]
+            [ class [ MenuList ] ]
             (List.map (navItem model) (routingItem model.url.src_url))
         ]
 
@@ -63,7 +64,7 @@ layoutHeader model siteTitle routingItem =
 linkItem : Attribute Msg -> Msg -> Attribute Msg -> String -> String -> String -> Html Msg
 linkItem liClass onClickCmd aClass iconClass slug textToShow =
     li
-        [ class [ Style.MenuItem ]
+        [ class [ MenuItem ]
         , liClass
         ]
         [ a
@@ -107,7 +108,7 @@ navItem model ( title, iconClass, route, slug ) =
 
                 _ ->
                     ( NoOp
-                    , class [ Style.MenuSelected ]
+                    , class [ MenuSelected ]
                     )
     in
         linkItem selectedClass
@@ -121,15 +122,15 @@ navItem model ( title, iconClass, route, slug ) =
 
 -- socialLink : String -> String -> Html Msg
 -- socialLink slug iconClass =
---     li [ class [ Style.MenuItem ] ]
---         [ externalLinkItem slug (class [ Style.SocialLink ]) iconClass ""
+--     li [ class [ MenuItem ] ]
+--         [ externalLinkItem slug (class [ SocialLink ]) iconClass ""
 --         ]
 
 
 contactLink : String -> String -> String -> Html Msg
 contactLink slug iconClass textToShow =
-    li [ class [ Style.MenuItem ] ]
-        [ externalLinkItem slug (class [ Style.MenuLink ]) iconClass textToShow
+    li [ class [ MenuItem ] ]
+        [ externalLinkItem slug (class [ MenuLink ]) iconClass textToShow
         ]
 
 
