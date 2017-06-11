@@ -7,46 +7,52 @@ import Messages exposing (Msg(..))
 import Models exposing (Model)
 import Json.Decode as JD exposing (..)
 import Views.Map exposing (mapView)
-import ViewHelpers exposing (fixedHeader, linkItem)
+import ViewHelpers exposing (marketingFixedHeader, predefinedLinkItem)
 import Routing exposing (routingItemHomePage)
+import Styles.MarketingStyle as Style
+import Html.CssHelpers
+
+
+{ id, class, classList } =
+    Html.CssHelpers.withNamespace "meilab"
 
 
 homeView : Model -> Html Msg
 homeView model =
-    div []
-        [ fixedHeader model "Meilab" routingItemHomePage
+    div [ class [ Style.Layout ] ]
+        [ marketingFixedHeader model "Meilab" routingItemHomePage
         , splash
 
         -- , mapView model
         , content model
+        , footer
         ]
 
 
 splash : Html Msg
 splash =
-    div [ class "splash-container" ]
-        [ div [ class "splash" ]
-            [ h1 [ class "splash-head" ] [ text "meilab" ]
-            , p [ class "splash-subhead" ] [ text "前沿技术培训 项目咨询" ]
+    div [ class [ Style.SplashContainer ] ]
+        [ div [ class [ Style.Splash ] ]
+            [ h1 [ class [ Style.SplashHead ] ] [ text "meilab" ]
+            , p [ class [ Style.SplashSubhead ] ] [ text "前沿技术培训 项目咨询" ]
             , p []
-                [ linkItem "/projectlist" "Get Started" "pure-button pure-button-primary" ]
+                [ predefinedLinkItem (class [ Style.Button ]) "" "/projectlist" "Get Started" ]
             ]
         ]
 
 
 content : Model -> Html Msg
 content model =
-    div [ class "content-wrapper" ]
+    div [ class [ Style.ContentContainer ] ]
         [ projects
         , services
         , contact
-        , footer
         ]
 
 
 contact : Html Msg
 contact =
-    div [ class "content" ]
+    div [ class [ Style.Content ] ]
         [ contentHead "Meta Info"
         , contactDetail
         ]
@@ -54,7 +60,7 @@ contact =
 
 projects : Html Msg
 projects =
-    div [ class "content" ]
+    div [ class [ Style.Content ] ]
         [ contentHead "项目"
         , projectsDetail
         ]
@@ -62,18 +68,17 @@ projects =
 
 services : Html Msg
 services =
-    div [ class "ribbon l-box-lrg pure-g" ]
-        [ div [ class "l-box-lrg is-center pure-u-1 pure-u-md-1-2 pure-u-lg-2-5" ]
+    div [ class [ Style.Ribbon, Style.GroupContainer ] ]
+        [ div [ class [ Style.SubContainer ] ]
             [ img
                 [ width 300
                 , alt "File Icons"
-                , class "pure-img-responsive"
                 , src "images/phoenix.png"
                 ]
                 []
             ]
-        , div [ class "pure-u-1 pure-u-md-1-2 pure-u-lg-3-5" ]
-            [ h2 [ class "content-head content-head-ribbon" ] [ text "提供服务" ]
+        , div [ class [ Style.SubContainer ] ]
+            [ h2 [ class [ Style.ContentHead, Style.ContentHeadRibbon ] ] [ text "提供服务" ]
             , p [] [ text "项目开发 培训 咨询" ]
             ]
         ]
@@ -81,34 +86,34 @@ services =
 
 projectsDetail : Html Msg
 projectsDetail =
-    div [ class "pure-g" ]
-        [ div [ class "l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4" ]
-            [ h3 [ class "content-subhead" ]
-                [ i [ class "fa fa-mobile" ] []
+    div [ class [ Style.GroupContainer ] ]
+        [ div [ class [ Style.SubContainer ] ]
+            [ h3 [ class [ Style.ContentSubhead ] ]
+                [ i [ Html.Attributes.class "fa fa-mobile" ] []
                 , text "物联网平台"
                 ]
             , p [] [ text "智能连接一切设备，实时追踪，控制" ]
             , p [] [ text "技术栈：Elixir, MQTT, Elm, C, React-Native" ]
             ]
-        , div [ class "l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4" ]
-            [ h3 [ class "content-subhead" ]
-                [ i [ class "fa fa-rocket" ] []
+        , div [ class [ Style.GroupContainer ] ]
+            [ h3 [ class [ Style.ContentSubhead ] ]
+                [ i [ Html.Attributes.class "fa fa-rocket" ] []
                 , text "区块链平台"
                 ]
             , p [] [ text "分布式账簿" ]
             , p [] [ text "技术栈：Elixir, Blockchain, Elm" ]
             ]
-        , div [ class "l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4" ]
-            [ h3 [ class "content-subhead" ]
-                [ i [ class "fa fa-th-large" ] []
+        , div [ class [ Style.GroupContainer ] ]
+            [ h3 [ class [ Style.ContentSubhead ] ]
+                [ i [ Html.Attributes.class "fa fa-th-large" ] []
                 , text "会议系统，协作平台"
                 ]
             , p [] [ text "多人视频会议，桌面共享" ]
             , p [] [ text "技术栈：Elixir, WebRTC, Elm, Socket" ]
             ]
-        , div [ class "l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4" ]
-            [ h3 [ class "content-subhead" ]
-                [ i [ class "fa fa-check-square-o" ] []
+        , div [ class [ Style.GroupContainer ] ]
+            [ h3 [ class [ Style.ContentSubhead ] ]
+                [ i [ Html.Attributes.class "fa fa-check-square-o" ] []
                 , text "聊天机器人"
                 ]
             , p [] [ text "智能聊天机器人" ]
@@ -119,9 +124,9 @@ projectsDetail =
 
 contactDetail : Html Msg
 contactDetail =
-    div [ class "pure-g" ]
-        [ div [ class "l-box-lrg pure-u-1 pure-u-md-2-5" ]
-            [ form [ class "pure-form pure-form-stacked" ]
+    div [ class [ Style.GroupContainer ] ]
+        [ div [ class [ Style.SubContainer ] ]
+            [ form [ Html.Attributes.class "pure-form pure-form-stacked" ]
                 [ fieldset []
                     [ label [ for "name" ] [ text "Your Name" ]
                     , input [ type_ "text", placeholder "Your Name" ] []
@@ -129,11 +134,11 @@ contactDetail =
                     , input [ type_ "text", placeholder "Your Email" ] []
                     , label [ for "password" ] [ text "Your Password" ]
                     , input [ type_ "text", placeholder "Your Password" ] []
-                    , button [ type_ "submit", class "pure-button" ] [ text "Sign Up" ]
+                    , button [ type_ "submit", class [ Style.Button ] ] [ text "Sign Up" ]
                     ]
                 ]
             ]
-        , div [ class "l-box-lrg pure-u-1 pure-u-md-3-5" ]
+        , div [ class [ Style.SubContainer ] ]
             [ h4 [] [ text "Contact Us" ]
             , p [] [ text "Meilab" ]
             , h4 [] [ text "More Info" ]
@@ -144,13 +149,13 @@ contactDetail =
 
 footer : Html Msg
 footer =
-    div [ class "footer l-box is-center" ]
+    div [ class [ Style.Footer ] ]
         [ text "Meilab" ]
 
 
 contentHead : String -> Html Msg
 contentHead str =
-    h2 [ class "content-head is-center" ] [ text str ]
+    h2 [ class [ Style.ContentHead ] ] [ text str ]
 
 
 

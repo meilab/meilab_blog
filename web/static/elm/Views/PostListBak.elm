@@ -1,7 +1,7 @@
 module Views.PostList exposing (postlistView)
 
-import Html exposing (Html, section, form, img, button, i, h1, h2, h3, h4, p, span, a, div, ul, li, text, nav, header, fieldset, label, input)
-import Html.Attributes exposing (style, href, type_, value, class, for, id, placeholder)
+import Html exposing (..)
+import Html.Attributes exposing (href, type_, value, class, for, id, placeholder)
 import Html.Events exposing (onInput, onSubmit)
 import Messages exposing (Msg(..))
 import Models exposing (Model)
@@ -9,23 +9,11 @@ import ViewHelpers exposing (navigationOnClick, contactLink)
 import Routing exposing (Route(..), urlFor, routingItemPost)
 import Markdown exposing (toHtml)
 import Types exposing (PostMetaInfo)
-import Styles.PostListSharedStyles exposing (..)
-
-
--- { id, classList } =
---     blogNamespace
--- import Views.PostListStyle as Style exposing (..)
--- import Html.CssHelpers
--- import Css exposing (color, asPairs, margin4, pct, textAlign, right, em)
--- import Css.Colors exposing (..)
--- import Css.Namespace exposing (namespace)
--- styles =
---     Css.asPairs >> Html.Attributes.style
 
 
 postlistView : Model -> Html Msg
 postlistView model =
-    div [ class "pure-g" ]
+    div [ id "post-layout", class "pure-g" ]
         [ postHeader model
         , content model
         ]
@@ -33,7 +21,7 @@ postlistView model =
 
 postHeader : Model -> Html Msg
 postHeader model =
-    div [ class "pure-u-1 pure-u-md-1-4" ]
+    div [ class "sidebar pure-u-1 pure-u-md-1-4" ]
         [ div [ class "post-header" ]
             [ h1 [ class "brand-title" ] [ text "Meilab Post" ]
             , h2 [ class "brand-tagline" ] [ text "Elixir Phoenix Elm ReactNative C MQTT Socket" ]
@@ -44,7 +32,7 @@ postHeader model =
 
 content : Model -> Html Msg
 content model =
-    div [ class "pure-u-1 pure-u-md-3-4 blogContent" ]
+    div [ class "content pure-u-1 pure-u-md-3-4" ]
         [ div []
             [ posts model
             , footer
@@ -82,9 +70,7 @@ post postMetaInfo =
 
 footer : Html Msg
 footer =
-    div
-        [ class "blogFooter"
-        ]
+    div [ class "footer" ]
         [ div [ class "pure-menu pure-menu-horizontal" ]
             [ ul []
                 [ contactLink "http://pureccss.io" "fa fa-home" ""

@@ -1,0 +1,129 @@
+.meilabLayout {
+    display: flex;
+    flex-direction: column;
+}
+
+.meilabSplashContainer {
+    flex: 0 0 88vh;
+    background-color: #39CCCC;
+}
+
+.meilabSplash {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.meilabSplashHead {
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+.meilabSplashSubhead {
+    color: #FFFFFF;
+}
+
+.meilabContentContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1rem;
+}
+
+.meilabGroupContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.meilabSubContainer {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+}
+
+.meilabContentSubhead {
+    color: #3b5998;
+}
+
+.meilabFooter {
+    background-color: #1F0808;
+    height: 64px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+@media screen and ( min-width: 48em) {
+        body {
+    font-size: 16px;
+}
+}
+
+@media screen and ( min-width: 48em) {
+        .meilabSplashContainer {
+    height: 50vh;
+}
+}
+
+@media screen and ( min-width: 48em) {
+        .meilabGroupContainer {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+}
+
+@media screen and ( min-width: 48em) {
+        .meilabSubContainer {
+    flex: 0 0 48%;
+    padding: 1rem;
+}
+}
+
+body {
+    font-size: 13px;
+    line-height: 1.5em;
+    background-color: #1F0808;
+}
+
+.meilabLayout {
+    display: flex;
+}
+
+.meilabMenuContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.meilabNavBarWrapper {
+    flex: 0 0 64px;
+}
+
+.meilabFixedNavBarContainer {
+    position: fixed;
+    width: 100vw;
+    background-color: #39CCCC;
+    display: flex;
+    justify-content: stretch;
+    align-items: center;
+    padding: 1rem;
+}
+
+.meilabMenuList {
+    list-style: none;
+    flex: 1;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.meilabMenuList  a {
+    text-decoration: none;
+}

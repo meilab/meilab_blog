@@ -8,6 +8,12 @@ import Html.Events exposing (onInput)
 import Json.Decode as JD
 import Models exposing (Model)
 import Routing exposing (Route)
+import Html.CssHelpers
+import Styles.LayoutStyle as Style
+
+
+{ id, class, classList } =
+    Html.CssHelpers.withNamespace "meilab"
 
 
 navigationOnClick : Msg -> Attribute Msg
@@ -21,49 +27,69 @@ navigationOnClick msg =
 
 navContainer : Model -> Html Msg
 navContainer model =
-    nav [ class "pure-menu" ]
-        [ ul [ class "pure-menu-list" ]
+    nav [ class [ Style.MenuContainer ] ]
+        [ ul []
             (List.map (navItem model) (routingItem model.url.src_url))
         ]
 
 
-fixedHeader : Model -> String -> (String -> List ( String, String, Route, String )) -> Html Msg
-fixedHeader model siteTitle routingItem =
-    div [ class "header" ]
-        [ div [ class "home-menu pure-menu pure-menu-horizontal pure-menu-fixed" ]
-            [ linkItem "/" siteTitle "pure-menu-heading"
+marketingFixedHeader : Model -> String -> (String -> List ( String, String, Route, String )) -> Html Msg
+marketingFixedHeader model siteTitle routingItem =
+    div [ class [ Style.NavBarWrapper ] ]
+        [ nav [ class [ Style.FixedNavBarContainer ] ]
+            [ ul [ class [ Style.MenuList ] ]
+                [ menuHeadingLinkItem "" "/" siteTitle ]
             , ul
-                [ class "pure-menu-list" ]
+                [ class [ Style.MenuList ] ]
                 (List.map (navItem model) (routingItem model.url.src_url))
             ]
         ]
 
 
-menuHeading : String -> String -> Html Msg
-menuHeading slug textToShow =
-    linkItem slug textToShow "pure-menu-heading"
-
-
-linkItem : String -> String -> String -> Html Msg
-linkItem slug textToShow className =
-    a
-        [ href slug
-        , navigationOnClick (NewUrl slug)
-        , class className
+layoutHeader : Model -> String -> (String -> List ( String, String, Route, String )) -> Html Msg
+layoutHeader model siteTitle routingItem =
+    nav
+        [ class [ Style.LayoutHeader ]
         ]
-        [ text textToShow ]
+        [ ul
+            [ class [ Style.MenuList ] ]
+            [ menuHeadingLinkItem "" "/" siteTitle ]
+        , ul
+            [ class [ Style.MenuList ] ]
+            (List.map (navItem model) (routingItem model.url.src_url))
+        ]
 
 
-menuLinkItem : String -> String -> String -> Html Msg
-menuLinkItem slug textToShow className =
-    a
-        [ href slug
-        , navigationOnClick (ToggleSideMenu)
-        , class className
+linkItem : Attribute Msg -> Msg -> Attribute Msg -> String -> String -> String -> Html Msg
+linkItem liClass onClickCmd aClass iconClass slug textToShow =
+    li
+        [ class [ Style.MenuItem ]
+        , liClass
         ]
-        [ span [] []
-        , text textToShow
+        [ a
+            [ href slug
+            , navigationOnClick (onClickCmd)
+            , aClass
+            ]
+            [ i [ Html.Attributes.class iconClass ] []
+            , text textToShow
+            ]
         ]
+
+
+predefinedLinkItem : Attribute Msg -> String -> String -> String -> Html Msg
+predefinedLinkItem aClass iconClass slug textToShow =
+    linkItem (class []) NoOp aClass iconClass slug textToShow
+
+
+menuHeadingLinkItem : String -> String -> String -> Html Msg
+menuHeadingLinkItem iconClass slug textToShow =
+    linkItem (class []) NoOp (class []) iconClass slug textToShow
+
+
+normalLinkItem : String -> String -> Html Msg
+normalLinkItem slug textToShow =
+    predefinedLinkItem (class []) "" slug textToShow
 
 
 navItem : Model -> ( String, String, Route, String ) -> Html Msg
@@ -72,45 +98,42 @@ navItem model ( title, iconClass, route, slug ) =
         isCurrentLocation =
             model.route == route
 
-        ( onClickCmd, newClass ) =
+        ( onClickCmd, selectedClass ) =
             case ( isCurrentLocation, route ) of
                 ( False, route ) ->
                     ( route |> (urlFor model.url.src_url) |> NewUrl
-                    , "pure-menu-item"
+                    , class []
                     )
 
                 _ ->
                     ( NoOp
-                    , "pure-menu-item pure-menu-selected"
+                    , class [ Style.MenuSelected ]
                     )
     in
-        li [ class newClass ]
-            [ a
-                [ href slug
-                , navigationOnClick onClickCmd
-                , class "pure-menu-link"
-                ]
-                [ i [ class iconClass ] []
-                , text title
-                ]
-            ]
+        linkItem selectedClass
+            onClickCmd
+            (class [])
+            iconClass
+            slug
+            title
 
 
-socialLink : String -> String -> Html Msg
-socialLink slug iconClass =
-    li [ class "pure-menu-item" ]
-        [ externalLinkItem slug "social-link" iconClass ""
-        ]
+
+-- socialLink : String -> String -> Html Msg
+-- socialLink slug iconClass =
+--     li [ class [ Style.MenuItem ] ]
+--         [ externalLinkItem slug (class [ Style.SocialLink ]) iconClass ""
+--         ]
 
 
 contactLink : String -> String -> String -> Html Msg
 contactLink slug iconClass textToShow =
-    li [ class "pure-menu-item" ]
-        [ externalLinkItem slug "pure-menu-link" iconClass textToShow
+    li [ class [ Style.MenuItem ] ]
+        [ externalLinkItem slug (class [ Style.MenuLink ]) iconClass textToShow
         ]
 
 
-externalLinkItem : String -> String -> String -> String -> Html Msg
+externalLinkItem : String -> Attribute Msg -> String -> String -> Html Msg
 externalLinkItem slug linkClass iconClass textToShow =
-    a [ class linkClass, href slug ]
-        [ i [ class iconClass ] [ text textToShow ] ]
+    a [ linkClass, href slug ]
+        [ i [ Html.Attributes.class iconClass ] [ text textToShow ] ]

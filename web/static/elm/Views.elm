@@ -13,52 +13,58 @@ import Views.Home exposing (homeView)
 import Views.Login exposing (loginView)
 import Views.PostList exposing (postlistView)
 import Views.PostDetail exposing (postdetailView)
-import ViewHelpers exposing (menuHeading, navItem, fixedHeader, menuLinkItem)
+import ViewHelpers exposing (menuHeadingLinkItem, navItem, layoutHeader)
 import Routing exposing (routingItem)
+import Html.CssHelpers
+import Styles.LayoutStyle as Style
+
+
+{ id, class, classList } =
+    Html.CssHelpers.withNamespace "meilab"
 
 
 view : Model -> Html Msg
 view model =
     let
-        ( contentView, viewHeader ) =
+        contentView =
             case model.route of
                 HomeRoute ->
-                    ( homeView model, defaultHeader "HNA Smart Container" )
+                    homeView model
 
                 LoginRoute ->
-                    ( loginView model, defaultHeader "Login" )
+                    loginView model
 
                 LogoutRoute ->
-                    ( loginView model, defaultHeader "Logout" )
+                    loginView model
 
                 RegisterRoute ->
-                    ( loginView model, defaultHeader "Sign Up" )
+                    loginView model
 
                 PostListRoute ->
-                    ( postlistView model, defaultHeader "PostList" )
+                    postlistView model
 
                 PostDetailRoute slug ->
-                    ( postdetailView model slug, defaultHeader "PostDetail" )
+                    postdetailView model slug
 
                 ProjectListRoute ->
-                    ( postlistView model, defaultHeader "ProjectList" )
+                    postlistView model
 
                 ProjectDetailRoute slug ->
-                    ( postdetailView model slug, defaultHeader "PostDetail" )
+                    postdetailView model slug
 
                 TrainingListRoute ->
-                    ( postlistView model, defaultHeader "TrainingList" )
+                    postlistView model
 
                 NotFoundRoute ->
-                    ( notFoundView, defaultHeader "Page Not Found" )
+                    notFoundView
 
         ( layoutClass, contentOnClickCmd ) =
             case model.ui.sideMenuActive of
                 True ->
-                    ( "active", ToggleSideMenu )
+                    ( Style.MenuActive, ToggleSideMenu )
 
                 False ->
-                    ( "", NoOp )
+                    ( Style.MenuInActive, NoOp )
     in
         case model.route of
             HomeRoute ->
@@ -74,10 +80,9 @@ view model =
                 loginView model
 
             _ ->
-                div [ id "layout", class layoutClass ]
-                    [ menuLinkItem "#menu" "" "menu-link"
-                    , menu model
-                    , fixedHeader model "HNA" routingItemNormalHeader
+                div [ class [ Style.Layout, layoutClass ] ]
+                    [ menu model
+                    , layoutHeader model "HNA" routingItemNormalHeader
 
                     -- , defaultHeader
                     , div [ onClick contentOnClickCmd ]
@@ -88,107 +93,14 @@ view model =
 
 menu : Model -> Html Msg
 menu model =
-    div [ id "menu" ]
-        [ nav [ class "pure-menu" ]
-            [ (menuHeading "/" "HNA")
+    div [ class [ Style.SideBarMenu ] ]
+        [ nav [ class [ Style.MenuContainer ] ]
+            [ (menuHeadingLinkItem "" "/" "HNA")
             , ul
-                [ class "pure-menu-list" ]
+                [ class [ Style.MenuList ] ]
                 (List.map (navItem model) (routingItem model.url.src_url))
             ]
         ]
-
-
-defaultHeader : String -> Html Msg
-defaultHeader title =
-    header
-        [ class "head" ]
-        [ text title ]
-
-
-
--- viewDrawerMenuItem : Model -> ( String, String, String, Route, Msg ) -> Html Msg
--- viewDrawerMenuItem model (agentName, agnetId, iconName, route, onClick) =
---   let
---     isCurrentAgent =
---       model.agentIdSelected == Just agnetId
---     onClickCmd =
---       case ( isCurrentAgent, onClick ) of
---         ( False, onClick ) ->
---           onClick |> Options.onClick
---         _ ->
---           Options.nop
---   in
---     Layout.link
---       [ onClickCmd
---       , when isCurrentAgent (Color.background <| Color.color Color.BlueGrey Color.S600)
---       , Options.css "color" "rgba(255, 255, 255, 0.56)"
---       , Options.css "font-weight" "500"
---       ]
---       [
---         Icon.view iconName
---         [ Color.text <| Color.color Color.BlueGrey Color.S500
---         , Options.css "margin-right" "32px"
---         ]
---       , text agentName
---       ]
--- viewDrawer : Model -> Html Msg
--- viewDrawer model =
---   Layout.navigation
---     [ Color.background <| Color.color Color.BlueGrey Color.S800
---     , Color.text <| Color.color Color.BlueGrey Color.S50
---     , Options.css "flex-grow" "1"
---     ]
---   <|
---     ( List.map (viewDrawerMenuItem model) ( viewDrawerItem model.agents ) )
--- viewDrawerItem : List Agent -> List ( String, String, String, Route, Msg )
--- viewDrawerItem agents =
---   agents
---   |> List.map agentItem
--- agentItem : Agent -> ( String, String, String, Route, Msg )
--- agentItem agent =
---   ( agent.name, agent.id, "inbox", BotDetailRoute, AgentSelected agent.id)
--- drawerHeader : Model -> Html Msg
--- drawerHeader model =
---   Options.styled Html.header
---     [ css "display" "flex"
---     , css "box-sizing" "border-box"
---     , css "justify-content" "flex-end"
---     , css "padding" "16px"
---     , css "height" "151px"
---     , css "flex-direction" "column"
---     , cs "demo-header"
---     , Color.background <| Color.color Color.BlueGrey Color.S900
---     , Color.text <| Color.color Color.BlueGrey Color.S50
---     ]
---     [ Options.styled Html.img
---         [ Options.attribute <| src "images/logo.png"
---         , css "width" "48px"
---         , css "height" "48px"
---         , css "border-radius" "24px"
---         ]
---         []
---       , Options.styled Html.div
---         [ css "display" "flex"
---         , css "flex-direction" "row"
---         , css "align-items" "center"
---         , css "width" "100%"
---         , css "position" "relative"
---         ]
---         [ Html.span [][ text "Come On!"]]
---     ]
--- viewBody : Model -> Html Msg
--- viewBody model =
---   case model.route of
---     HomeRoute ->
---       introView
---     LoginRoute ->
---       loginView model
---     BotListRoute ->
---       botListView model.agents
---     BotDetailRoute ->
---       botDetailView model
---     NotFoundRoute ->
---       notFoundView
 
 
 introView : Model -> Html Msg
