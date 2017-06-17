@@ -36,6 +36,19 @@ type CssClasses
     | SubContainer
       -- for Blog
     | BlogLayout
+    | BlogSideBarWrapper
+    | BlogSideBarMenu
+    | BrandTitle
+    | BrandTagline
+    | BlogContent
+    | Posts
+    | PostContainer
+    | PostHeader
+    | PostTitle
+    | PostMeta
+    | PostAuthor
+    | PostCategory
+    | PostDescription
       -- for Button
     | Button
     | PrimaryButton

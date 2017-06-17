@@ -11148,6 +11148,19 @@ var _user$project$Views_Map$mapView = function (model) {
 var _user$project$Styles_SharedStyles$meilabNamespace = _rtfeldman$elm_css_helpers$Html_CssHelpers$withNamespace('meilab');
 var _user$project$Styles_SharedStyles$PrimaryButton = {ctor: 'PrimaryButton'};
 var _user$project$Styles_SharedStyles$Button = {ctor: 'Button'};
+var _user$project$Styles_SharedStyles$PostDescription = {ctor: 'PostDescription'};
+var _user$project$Styles_SharedStyles$PostCategory = {ctor: 'PostCategory'};
+var _user$project$Styles_SharedStyles$PostAuthor = {ctor: 'PostAuthor'};
+var _user$project$Styles_SharedStyles$PostMeta = {ctor: 'PostMeta'};
+var _user$project$Styles_SharedStyles$PostTitle = {ctor: 'PostTitle'};
+var _user$project$Styles_SharedStyles$PostHeader = {ctor: 'PostHeader'};
+var _user$project$Styles_SharedStyles$PostContainer = {ctor: 'PostContainer'};
+var _user$project$Styles_SharedStyles$Posts = {ctor: 'Posts'};
+var _user$project$Styles_SharedStyles$BlogContent = {ctor: 'BlogContent'};
+var _user$project$Styles_SharedStyles$BrandTagline = {ctor: 'BrandTagline'};
+var _user$project$Styles_SharedStyles$BrandTitle = {ctor: 'BrandTitle'};
+var _user$project$Styles_SharedStyles$BlogSideBarMenu = {ctor: 'BlogSideBarMenu'};
+var _user$project$Styles_SharedStyles$BlogSideBarWrapper = {ctor: 'BlogSideBarWrapper'};
 var _user$project$Styles_SharedStyles$BlogLayout = {ctor: 'BlogLayout'};
 var _user$project$Styles_SharedStyles$SubContainer = {ctor: 'SubContainer'};
 var _user$project$Styles_SharedStyles$GroupContainer = {ctor: 'GroupContainer'};
@@ -11366,7 +11379,16 @@ var _user$project$ViewHelpers$navContainer = function (model) {
 			ctor: '::',
 			_0: A2(
 				_elm_lang$html$Html$ul,
-				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _user$project$ViewHelpers$class(
+						{
+							ctor: '::',
+							_0: _user$project$Styles_SharedStyles$MenuList,
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				},
 				A2(
 					_elm_lang$core$List$map,
 					_user$project$ViewHelpers$navItem(model),
@@ -12573,125 +12595,96 @@ var _user$project$Views_Login$loginView = function (model) {
 		});
 };
 
-var _user$project$Styles_PostListSharedStyles$blogNamespace = _rtfeldman$elm_css_helpers$Html_CssHelpers$withNamespace('blog');
-var _user$project$Styles_PostListSharedStyles$Footer = {ctor: 'Footer'};
-var _user$project$Styles_PostListSharedStyles$Post = {ctor: 'Post'};
-var _user$project$Styles_PostListSharedStyles$Content = {ctor: 'Content'};
-var _user$project$Styles_PostListSharedStyles$NavItem = {ctor: 'NavItem'};
-var _user$project$Styles_PostListSharedStyles$NavListItem = {ctor: 'NavListItem'};
-var _user$project$Styles_PostListSharedStyles$Sidebar = {ctor: 'Sidebar'};
-var _user$project$Styles_PostListSharedStyles$Header = {ctor: 'Header'};
-var _user$project$Styles_PostListSharedStyles$Layout = {ctor: 'Layout'};
-
-var _user$project$Views_PostList$navItem = F2(
-	function (model, _p0) {
-		var _p1 = _p0;
-		return A2(
-			_elm_lang$html$Html$li,
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$class('nav-item'),
-				_1: {ctor: '[]'}
-			},
-			{
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$a,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$href(_p1._3),
-						_1: {
-							ctor: '::',
-							_0: _user$project$ViewHelpers$navigationOnClick(
-								_user$project$Messages$NewUrl(
-									A2(_user$project$Routing$urlFor, model.url.src_url, _p1._2))),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('pure-button'),
-								_1: {ctor: '[]'}
-							}
-						}
-					},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text(_p1._0),
-						_1: {ctor: '[]'}
-					}),
-				_1: {ctor: '[]'}
-			});
-	});
-var _user$project$Views_PostList$navContainer = function (model) {
+var _user$project$Views_PostList$_p0 = _rtfeldman$elm_css_helpers$Html_CssHelpers$withNamespace('meilab');
+var _user$project$Views_PostList$id = _user$project$Views_PostList$_p0.id;
+var _user$project$Views_PostList$class = _user$project$Views_PostList$_p0.$class;
+var _user$project$Views_PostList$classList = _user$project$Views_PostList$_p0.classList;
+var _user$project$Views_PostList$sideBar = function (model) {
 	return A2(
-		_elm_lang$html$Html$nav,
+		_elm_lang$html$Html$div,
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('nav'),
+			_0: _user$project$Views_PostList$class(
+				{
+					ctor: '::',
+					_0: _user$project$Styles_SharedStyles$BlogSideBarWrapper,
+					_1: {ctor: '[]'}
+				}),
 			_1: {ctor: '[]'}
 		},
 		{
 			ctor: '::',
 			_0: A2(
-				_elm_lang$html$Html$ul,
+				_elm_lang$html$Html$div,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('nav-list'),
+					_0: _user$project$Views_PostList$class(
+						{
+							ctor: '::',
+							_0: _user$project$Styles_SharedStyles$BlogSideBarMenu,
+							_1: {ctor: '[]'}
+						}),
 					_1: {ctor: '[]'}
 				},
-				A2(
-					_elm_lang$core$List$map,
-					_user$project$Views_PostList$navItem(model),
-					_user$project$Routing$routingItemPost(model.url.src_url))),
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$h1,
+						{
+							ctor: '::',
+							_0: _user$project$Views_PostList$class(
+								{
+									ctor: '::',
+									_0: _user$project$Styles_SharedStyles$BrandTitle,
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('Meilab Post'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$h2,
+							{
+								ctor: '::',
+								_0: _user$project$Views_PostList$class(
+									{
+										ctor: '::',
+										_0: _user$project$Styles_SharedStyles$BrandTagline,
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('Elixir Phoenix Elm ReactNative C MQTT Socket'),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: _user$project$ViewHelpers$navContainer(model),
+							_1: {ctor: '[]'}
+						}
+					}
+				}),
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$Views_PostList$footer = A2(
-	_elm_lang$html$Html$div,
-	{
-		ctor: '::',
-		_0: _elm_lang$html$Html_Attributes$class('blogFooter'),
-		_1: {ctor: '[]'}
-	},
-	{
-		ctor: '::',
-		_0: A2(
-			_elm_lang$html$Html$div,
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$class('pure-menu pure-menu-horizontal'),
-				_1: {ctor: '[]'}
-			},
-			{
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$ul,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: A3(_user$project$ViewHelpers$contactLink, 'http://pureccss.io', 'fa fa-home', ''),
-						_1: {
-							ctor: '::',
-							_0: A3(_user$project$ViewHelpers$contactLink, 'http://github.com/meilab/', 'fa fa-github-alt', ''),
-							_1: {
-								ctor: '::',
-								_0: A3(_user$project$ViewHelpers$contactLink, 'http://github.com/yahoo/pure', 'fa fa-weibo', ''),
-								_1: {
-									ctor: '::',
-									_0: A3(_user$project$ViewHelpers$contactLink, 'http://github.com/yahoo/pure', 'fa fa-wechat', ''),
-									_1: {ctor: '[]'}
-								}
-							}
-						}
-					}),
-				_1: {ctor: '[]'}
-			}),
-		_1: {ctor: '[]'}
-	});
 var _user$project$Views_PostList$post = function (postMetaInfo) {
 	return A2(
 		_elm_lang$html$Html$section,
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('post'),
+			_0: _user$project$Views_PostList$class(
+				{
+					ctor: '::',
+					_0: _user$project$Styles_SharedStyles$PostContainer,
+					_1: {ctor: '[]'}
+				}),
 			_1: {ctor: '[]'}
 		},
 		{
@@ -12700,7 +12693,12 @@ var _user$project$Views_PostList$post = function (postMetaInfo) {
 				_elm_lang$html$Html$header,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('post-header'),
+					_0: _user$project$Views_PostList$class(
+						{
+							ctor: '::',
+							_0: _user$project$Styles_SharedStyles$PostHeader,
+							_1: {ctor: '[]'}
+						}),
 					_1: {ctor: '[]'}
 				},
 				{
@@ -12715,7 +12713,12 @@ var _user$project$Views_PostList$post = function (postMetaInfo) {
 							_elm_lang$html$Html$h2,
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('post-title'),
+								_0: _user$project$Views_PostList$class(
+									{
+										ctor: '::',
+										_0: _user$project$Styles_SharedStyles$PostTitle,
+										_1: {ctor: '[]'}
+									}),
 								_1: {ctor: '[]'}
 							},
 							{
@@ -12729,7 +12732,12 @@ var _user$project$Views_PostList$post = function (postMetaInfo) {
 								_elm_lang$html$Html$p,
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('post-meta'),
+									_0: _user$project$Views_PostList$class(
+										{
+											ctor: '::',
+											_0: _user$project$Styles_SharedStyles$PostMeta,
+											_1: {ctor: '[]'}
+										}),
 									_1: {ctor: '[]'}
 								},
 								{
@@ -12741,7 +12749,12 @@ var _user$project$Views_PostList$post = function (postMetaInfo) {
 											_elm_lang$html$Html$a,
 											{
 												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$class('post-author'),
+												_0: _user$project$Views_PostList$class(
+													{
+														ctor: '::',
+														_0: _user$project$Styles_SharedStyles$PostAuthor,
+														_1: {ctor: '[]'}
+													}),
 												_1: {ctor: '[]'}
 											},
 											{
@@ -12758,7 +12771,12 @@ var _user$project$Views_PostList$post = function (postMetaInfo) {
 													_elm_lang$html$Html$a,
 													{
 														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$class('post-category post-category-design'),
+														_0: _user$project$Views_PostList$class(
+															{
+																ctor: '::',
+																_0: _user$project$Styles_SharedStyles$PostCategory,
+																_1: {ctor: '[]'}
+															}),
 														_1: {ctor: '[]'}
 													},
 													{
@@ -12772,7 +12790,12 @@ var _user$project$Views_PostList$post = function (postMetaInfo) {
 														_elm_lang$html$Html$a,
 														{
 															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$class('post-category post-category-pure'),
+															_0: _user$project$Views_PostList$class(
+																{
+																	ctor: '::',
+																	_0: _user$project$Styles_SharedStyles$PostCategory,
+																	_1: {ctor: '[]'}
+																}),
 															_1: {ctor: '[]'}
 														},
 														{
@@ -12796,7 +12819,12 @@ var _user$project$Views_PostList$post = function (postMetaInfo) {
 					_elm_lang$html$Html$div,
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('post-description'),
+						_0: _user$project$Views_PostList$class(
+							{
+								ctor: '::',
+								_0: _user$project$Styles_SharedStyles$PostDescription,
+								_1: {ctor: '[]'}
+							}),
 						_1: {ctor: '[]'}
 					},
 					{
@@ -12816,17 +12844,72 @@ var _user$project$Views_PostList$posts = function (model) {
 		_elm_lang$html$Html$div,
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('posts'),
+			_0: _user$project$Views_PostList$class(
+				{
+					ctor: '::',
+					_0: _user$project$Styles_SharedStyles$Posts,
+					_1: {ctor: '[]'}
+				}),
 			_1: {ctor: '[]'}
 		},
 		A2(_elm_lang$core$List$map, _user$project$Views_PostList$post, model.postList));
 };
+var _user$project$Views_PostList$footer = A2(
+	_elm_lang$html$Html$div,
+	{
+		ctor: '::',
+		_0: _user$project$Views_PostList$class(
+			{
+				ctor: '::',
+				_0: _user$project$Styles_SharedStyles$Footer,
+				_1: {ctor: '[]'}
+			}),
+		_1: {ctor: '[]'}
+	},
+	{
+		ctor: '::',
+		_0: A2(
+			_elm_lang$html$Html$ul,
+			{
+				ctor: '::',
+				_0: _user$project$Views_PostList$class(
+					{
+						ctor: '::',
+						_0: _user$project$Styles_SharedStyles$MenuList,
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A3(_user$project$ViewHelpers$contactLink, 'http://pureccss.io', 'fa fa-home', ''),
+				_1: {
+					ctor: '::',
+					_0: A3(_user$project$ViewHelpers$contactLink, 'http://github.com/meilab/', 'fa fa-github-alt', ''),
+					_1: {
+						ctor: '::',
+						_0: A3(_user$project$ViewHelpers$contactLink, 'http://github.com/yahoo/pure', 'fa fa-weibo', ''),
+						_1: {
+							ctor: '::',
+							_0: A3(_user$project$ViewHelpers$contactLink, 'http://github.com/yahoo/pure', 'fa fa-wechat', ''),
+							_1: {ctor: '[]'}
+						}
+					}
+				}
+			}),
+		_1: {ctor: '[]'}
+	});
 var _user$project$Views_PostList$content = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('pure-u-1 pure-u-md-3-4 blogContent'),
+			_0: _user$project$Views_PostList$class(
+				{
+					ctor: '::',
+					_0: _user$project$Styles_SharedStyles$BlogContent,
+					_1: {ctor: '[]'}
+				}),
 			_1: {ctor: '[]'}
 		},
 		{
@@ -12846,72 +12929,22 @@ var _user$project$Views_PostList$content = function (model) {
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$Views_PostList$postHeader = function (model) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('pure-u-1 pure-u-md-1-4'),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$div,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('post-header'),
-					_1: {ctor: '[]'}
-				},
-				{
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$h1,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('brand-title'),
-							_1: {ctor: '[]'}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text('Meilab Post'),
-							_1: {ctor: '[]'}
-						}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$h2,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('brand-tagline'),
-								_1: {ctor: '[]'}
-							},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text('Elixir Phoenix Elm ReactNative C MQTT Socket'),
-								_1: {ctor: '[]'}
-							}),
-						_1: {
-							ctor: '::',
-							_0: _user$project$Views_PostList$navContainer(model),
-							_1: {ctor: '[]'}
-						}
-					}
-				}),
-			_1: {ctor: '[]'}
-		});
-};
 var _user$project$Views_PostList$postlistView = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('pure-g'),
+			_0: _user$project$Views_PostList$class(
+				{
+					ctor: '::',
+					_0: _user$project$Styles_SharedStyles$BlogLayout,
+					_1: {ctor: '[]'}
+				}),
 			_1: {ctor: '[]'}
 		},
 		{
 			ctor: '::',
-			_0: _user$project$Views_PostList$postHeader(model),
+			_0: _user$project$Views_PostList$sideBar(model),
 			_1: {
 				ctor: '::',
 				_0: _user$project$Views_PostList$content(model),

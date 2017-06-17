@@ -29,7 +29,7 @@ navigationOnClick msg =
 navContainer : Model -> Html Msg
 navContainer model =
     nav [ class [ MenuContainer ] ]
-        [ ul []
+        [ ul [ class [ MenuList ] ]
             (List.map (navItem model) (routingItem model.url.src_url))
         ]
 

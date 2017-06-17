@@ -5,38 +5,32 @@ import Html.Attributes exposing (style, href, type_, value, class, for, id, plac
 import Html.Events exposing (onInput, onSubmit)
 import Messages exposing (Msg(..))
 import Models exposing (Model)
-import ViewHelpers exposing (navigationOnClick, contactLink)
+import ViewHelpers exposing (navContainer, navigationOnClick, contactLink)
 import Routing exposing (Route(..), urlFor, routingItemPost)
 import Markdown exposing (toHtml)
 import Types exposing (PostMetaInfo)
-import Styles.PostListSharedStyles exposing (..)
+import Styles.SharedStyles exposing (..)
+import Html.CssHelpers exposing (withNamespace)
 
 
--- { id, classList } =
---     blogNamespace
--- import Views.PostListStyle as Style exposing (..)
--- import Html.CssHelpers
--- import Css exposing (color, asPairs, margin4, pct, textAlign, right, em)
--- import Css.Colors exposing (..)
--- import Css.Namespace exposing (namespace)
--- styles =
---     Css.asPairs >> Html.Attributes.style
+{ id, class, classList } =
+    withNamespace "meilab"
 
 
 postlistView : Model -> Html Msg
 postlistView model =
-    div [ class "pure-g" ]
-        [ postHeader model
+    div [ class [ BlogLayout ] ]
+        [ sideBar model
         , content model
         ]
 
 
-postHeader : Model -> Html Msg
-postHeader model =
-    div [ class "pure-u-1 pure-u-md-1-4" ]
-        [ div [ class "post-header" ]
-            [ h1 [ class "brand-title" ] [ text "Meilab Post" ]
-            , h2 [ class "brand-tagline" ] [ text "Elixir Phoenix Elm ReactNative C MQTT Socket" ]
+sideBar : Model -> Html Msg
+sideBar model =
+    div [ class [ BlogSideBarWrapper ] ]
+        [ div [ class [ BlogSideBarMenu ] ]
+            [ h1 [ class [ BrandTitle ] ] [ text "Meilab Post" ]
+            , h2 [ class [ BrandTagline ] ] [ text "Elixir Phoenix Elm ReactNative C MQTT Socket" ]
             , navContainer model
             ]
         ]
@@ -44,7 +38,7 @@ postHeader model =
 
 content : Model -> Html Msg
 content model =
-    div [ class "pure-u-1 pure-u-md-3-4 blogContent" ]
+    div [ class [ BlogContent ] ]
         [ div []
             [ posts model
             , footer
@@ -54,7 +48,7 @@ content model =
 
 posts : Model -> Html Msg
 posts model =
-    div [ class "posts" ]
+    div [ class [ Posts ] ]
         (model.postList
             |> List.map post
         )
@@ -62,19 +56,19 @@ posts model =
 
 post : PostMetaInfo -> Html Msg
 post postMetaInfo =
-    section [ class "post" ]
-        [ header [ class "post-header" ]
+    section [ class [ PostContainer ] ]
+        [ header [ class [ PostHeader ] ]
             [ img [] []
-            , h2 [ class "post-title" ] [ text postMetaInfo.title ]
-            , p [ class "post-meta" ]
+            , h2 [ class [ PostTitle ] ] [ text postMetaInfo.title ]
+            , p [ class [ PostMeta ] ]
                 [ text "By"
-                , a [ class "post-author" ] [ text postMetaInfo.author ]
+                , a [ class [ PostAuthor ] ] [ text postMetaInfo.author ]
                 , text "Under"
-                , a [ class "post-category post-category-design" ] [ text "Pure" ]
-                , a [ class "post-category post-category-pure" ] [ text "CSS" ]
+                , a [ class [ PostCategory ] ] [ text "Pure" ]
+                , a [ class [ PostCategory ] ] [ text "CSS" ]
                 ]
             ]
-        , div [ class "post-description" ]
+        , div [ class [ PostDescription ] ]
             [ toHtml [] postMetaInfo.description
             ]
         ]
@@ -83,35 +77,32 @@ post postMetaInfo =
 footer : Html Msg
 footer =
     div
-        [ class "blogFooter"
+        [ class [ Footer ]
         ]
-        [ div [ class "pure-menu pure-menu-horizontal" ]
-            [ ul []
-                [ contactLink "http://pureccss.io" "fa fa-home" ""
-                , contactLink "http://github.com/meilab/" "fa fa-github-alt" ""
-                , contactLink "http://github.com/yahoo/pure" "fa fa-weibo" ""
-                , contactLink "http://github.com/yahoo/pure" "fa fa-wechat" ""
-                ]
+        [ ul [ class [ MenuList ] ]
+            [ contactLink "http://pureccss.io" "fa fa-home" ""
+            , contactLink "http://github.com/meilab/" "fa fa-github-alt" ""
+            , contactLink "http://github.com/yahoo/pure" "fa fa-weibo" ""
+            , contactLink "http://github.com/yahoo/pure" "fa fa-wechat" ""
             ]
         ]
 
 
-navContainer : Model -> Html Msg
-navContainer model =
-    nav [ class "nav" ]
-        [ ul [ class "nav-list" ]
-            (List.map (navItem model) (routingItemPost model.url.src_url))
-        ]
 
-
-navItem : Model -> ( String, String, Route, String ) -> Html Msg
-navItem model ( title, iconClass, route, slug ) =
-    li [ class "nav-item" ]
-        [ a
-            [ href slug
-            , navigationOnClick (route |> (urlFor model.url.src_url) |> NewUrl)
-            , class "pure-button"
-            ]
-            [ text title
-            ]
-        ]
+-- navContainer : Model -> Html Msg
+-- navContainer model =
+--     nav [ class "nav" ]
+--         [ ul [ class "nav-list" ]
+--             (List.map (navItem model) (routingItemPost model.url.src_url))
+--         ]
+-- navItem : Model -> ( String, String, Route, String ) -> Html Msg
+-- navItem model ( title, iconClass, route, slug ) =
+--     li [ class "nav-item" ]
+--         [ a
+--             [ href slug
+--             , navigationOnClick (route |> (urlFor model.url.src_url) |> NewUrl)
+--             , class "pure-button"
+--             ]
+--             [ text title
+--             ]
+--         ]

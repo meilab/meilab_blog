@@ -160,4 +160,45 @@ body {
     text-align: center;
 }
 
+.meilabBlogLayout {
+    display: flex;
+    flex-direction: column;
+}
 
+.meilabBlogSideBarWrapper {
+    background-color: #AAAAAA;
+}
+
+.meilabBlogSideBarMenu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+@media screen and (min-width: 48em) {
+        .meilabBlogLayout {
+    flex-direction: row;
+}
+}
+
+@media screen and (min-width: 48em) {
+        .meilabBlogSideBarMenu {
+    position: fixed;
+    width: 35%;
+    height: 100vh;
+}
+}
+
+@media screen and (min-width: 48em) {
+        .meilabBlogSideBarWrapper {
+    flex: 35%;
+}
+}
+
+@media screen and (min-width: 48em) {
+        .meilabBlogContent {
+    flex: 65%;
+}
+}
